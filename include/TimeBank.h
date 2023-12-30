@@ -1,3 +1,5 @@
+#pragma once
+
 #include <iostream>
 
 class TimeBank {
@@ -9,8 +11,8 @@ public:
     TimeBank();
 
     // Member function to save all data
-    void saveAllData() {}
+    void saveAllData();
 
     // Member function to load all data
-    void loadAllData() {}
+    void loadAllData();
 };

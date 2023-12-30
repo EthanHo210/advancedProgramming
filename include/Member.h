@@ -1,3 +1,5 @@
+#pragma once
+
 #include "User.h"
 #include <iostream>
 #include <vector>
@@ -25,8 +27,7 @@ public:
     // Implementation of the displayInfo function
     void displayInfo() override
     {
-        std::cout << "Member Info:" << std::endl;
-        std::cout << "ID: " << getId() << std::endl;
+        std::cout << "--Member Info--" << std::endl;
         std::cout << "Username: " << getUsername() << std::endl;
         std::cout << "Password: " << getPassword() << std::endl;
         std::cout << "Full Name: " << fullName << std::endl;

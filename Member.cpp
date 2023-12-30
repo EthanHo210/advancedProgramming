@@ -1,4 +1,4 @@
-#include "Member.h"
+#include "include/Member.h"
 #include <vector>
 
 using std::string, std::vector;
@@ -10,5 +10,5 @@ Member::Member(std::string &username, std::string &password,
       email(email), address(address), isSupporting(false) {}
 
 Member::Member(std::string &username, std::string &password)
-    : User(username, password), fullName(NULL), phoneNumber(NULL),
-      email(NULL), address(NULL), isSupporting(false) {}
+    : User(username, password), fullName(""), phoneNumber(""),
+      email(""), address(""), isSupporting(false) {}
