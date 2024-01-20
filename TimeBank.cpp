@@ -1,30 +1,30 @@
 #include "include/TimeBank.h"
 
-TimeBank::TimeBank() : allUser({}), session(""){};
+TimeBank::TimeBank() : session(""){};
 
-void TimeBank::saveAllData()
-{
+void TimeBank::saveAllData(){
     // Add code to save data to a file or database
-    std::cout << "Saving all data..." << std::endl;
+    // std::cout << "Saving all data..." << std::endl;
 };
 
 void TimeBank::loadAllData()
 {
-    std::fstream dataFile("data/system/TimeBank.dat");
-    std::string temp;
-    while (std::getline(dataFile, temp))
-    {
-        allUser.push_back(temp);
-    }
+    std::fstream dataFile("data/system/TimeBank.dat", std::ios::app);
+    dataFile << "";
+    // std::string temp;
+    // while (std::getline(dataFile, temp))
+    // {
+    //     allUser.push_back(temp);
+    // }
 
-    for (std::string name : allUser)
-    {
-        std::cout << name;
-    }
+    // for (std::string name : allUser)
+    // {
+    //     std::cout << name;
+    // }
 }
 
 // SHOW THE ENTIRE FILE
-void TimeBank::readFile(std::string path)
+void TimeBank::logFile(std::string path)
 {
     std::string temp;
     std::ifstream dataFile;
@@ -39,6 +39,28 @@ void TimeBank::readFile(std::string path)
         std::cout << temp << "\n";
     }
     dataFile.close();
+}
+
+// RETURN THE ENTIRE FILE
+std::vector<std::string> TimeBank::readFile(std::string path)
+{
+    std::vector<std::string> file;
+    std::string temp;
+    std::ifstream dataFile;
+
+    dataFile.open(path, std::ios::in); // read
+    if (!dataFile.is_open())
+    {
+        std::cout << "Fail to create/open file \n";
+    }
+    std::cout << "Reading file: \n";
+    while (getline(dataFile, temp))
+    {
+        file.push_back(temp);
+    }
+    dataFile.close();
+
+    return file;
 }
 
 // CLEAR ALL THE FILE CONTENT
@@ -210,7 +232,7 @@ void TimeBank::login()
 
     while (userType != 0)
     {
-        std::cout << "Use the app as:\n0. Exit \n1. Guest\n2. Member\n3. Admin\n"
+        std::cout << "\nUse the app as:\n0. Exit \n1. Guest\n2. Member\n3. Admin\n"
                   << "Enter your choice: ";
 
         std::cin >> userType;
@@ -224,7 +246,7 @@ void TimeBank::login()
             while (option != 0)
             {
 
-                std::cout << "Are you new here?\n"
+                std::cout << "\nAre you new here?\n"
                           << "0. Return\n"
                           << "1. Register\n"
                           << "2. Continue as guest\n"
@@ -242,7 +264,7 @@ void TimeBank::login()
                 case 1:
                     while (true)
                     {
-                        std::cout << "--- Register as member ---\n"
+                        std::cout << "\n--- Register as member ---\n"
                                   << "Username: ";
                         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                         std::getline(std::cin, username);
@@ -253,8 +275,6 @@ void TimeBank::login()
                             try
                             {
                                 Member::registerMember(username, password);
-                                std::string path = "data/account/" + username + ".dat";
-                                TimeBank::readFile(path);
                                 break;
                             }
                             catch (const std::runtime_error &e)
@@ -285,18 +305,30 @@ void TimeBank::login()
         }
         case 2:
         {
-            std::cout << "Logging in as a member.\n"
+            std::cout << "\nLogging in as a member.\n"
                       << "Enter username: ";
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             std::getline(std::cin, username);
             std::cout << "Enter password: ";
             std::cin >> password;
+
+            if (Member::verifyLogin(username, password))
+            {
+                std::cout << "Logged in successfully.\n";
+                session = username;
+                userType = 0;
+            }
+            else
+            {
+                std::cout << "Failed to login.\n";
+            };
 
             break;
         }
 
         case 3:
         {
-            std::cout << "Logging in as admin.\n";
+            std::cout << "\nLogging in as admin.\n";
             username = "admin";
             std::cout << "Enter password: ";
             std::cin >> password;
@@ -313,7 +345,7 @@ void TimeBank::login()
         }
         case 0:
         {
-            std::cout << "Exiting...";
+            std::cout << "\nExiting...";
             username = "";
             break;
         }
@@ -325,6 +357,31 @@ void TimeBank::login()
     }
 
     session = username;
+}
+
+// Check if username exist for login function
+bool TimeBank::isUsernameExist(std::string username)
+{
+    std::ifstream file("data/system/TimeBank.dat");
+
+    if (!file.is_open())
+    {
+        std::cerr << "Error opening system file: " << std::endl;
+        return false; // Return false if the file cannot be opened
+    }
+
+    std::string line;
+    while (std::getline(file, line))
+    {
+        if (line == username)
+        {
+            file.close();
+            return true; // Username found
+        }
+    }
+
+    file.close();
+    return false; // Username not found
 }
 
 // Main menu
@@ -397,7 +454,7 @@ void TimeBank::main_menu()
 
                 break;
             case 2:
-
+                TimeBank::manage_account();
                 break;
             default:
                 std::cout << "Invalid choice.\n";
@@ -407,8 +464,71 @@ void TimeBank::main_menu()
     }
 };
 
-void TimeBank::view_account()
+void TimeBank::manage_account()
 {
     std::string path = "data/account/" + session + ".dat";
     std::ifstream userData(path);
+
+    int option;
+    while (option != 0)
+    {
+        std::cout << "\nMANAGE ACCOUNT\n";
+        std::cout << "0. Return\n"
+                  << "1. View your information\n"
+                  << "2. Change account to supporter\n"
+                  << "3. Check your on-going requests\n"
+                  << "4. Check pending requests from other users\n"
+                  << "5. Set minimum host score\n"
+                  << "Enter your choice: ";
+
+        std::cin >> option;
+        switch (option)
+        {
+        case 0:
+            std::cout << "\nReturning to main menu.\n";
+            break;
+        case 1:
+            TimeBank::view_account();
+            break;
+        case 5:
+            TimeBank::set_min_host_score();
+            break;
+        default:
+            std::cerr << "Invalid input.";
+            break;
+        }
+    }
+}
+
+void TimeBank::view_account()
+{
+    std::cout << "\nYour Account Information:\n";
+    std::string path = "data/account/" + session + ".dat";
+
+    std::vector<std::string> dataLines = TimeBank::readFile(path);
+
+    std::cout << "Username: " << dataLines[0] << "\n"
+              << "Password: " << dataLines[1] << "\n"
+              << "Full Name: " << dataLines[2] << "\n"
+              << "Phone number: " << dataLines[3] << "\n"
+              << "Email Address: " << dataLines[4] << "\n"
+              << "Home Address: " << dataLines[5] << "\n"
+              << "Remaining Credits: " << dataLines[6] << "\n"
+              << "Is supporting: " << dataLines[7] << "\n"
+              << "Users blocked: " << dataLines[8] << "\n"
+              << "Skill: " << dataLines[9] << "\n"
+              << "Required Host Score: " << dataLines[10] << "\n";
+}
+
+void TimeBank::set_min_host_score()
+{
+    std::string newScore;
+    std::cout << "\nSetting required host score:\n"
+              << "Input a score between 0-10 (enter 0 to disable min host score): ";
+    std::cin >> newScore;
+
+    std::string path = "data/account/" + session + ".dat";
+    TimeBank::changeContentByLine(path, 11, newScore);
+
+    std::cout << "Upated successfully.\n";
 }

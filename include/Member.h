@@ -35,6 +35,7 @@ public:
 
     // Register member
     static void registerMember(std::string username, std::string password);
+    static bool verifyLogin(std::string username, std::string password);
 
     // Implementation of the displayInfo function
     std::string getUsername() const { return username; }

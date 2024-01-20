@@ -31,7 +31,7 @@ Member::Member(std::string username, std::string password,
                  << email << "\n"
                  << address << "\n"
                  << creditPoints << "\n"
-                 << isSupporting << "\n";
+                 << (isSupporting ? "true" : "false") << "\n";
         for (std::string name : blockList)
         {
             dataFile << name << ";";
@@ -68,7 +68,7 @@ void Member::registerMember(std::string username, std::string password)
     std::string address;
     std::string skill;
 
-    std::cout << "Please enter the following fields:\n";
+    std::cout << "\nPlease enter the following fields:\n";
 
     std::cout << "Full name: ";
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -147,6 +147,37 @@ void Member::displayInfo(std::string name)
     }
 
     inputFile.close();
+}
+
+bool Member::verifyLogin(std::string username, std::string password)
+{
+    if (!TimeBank::isUsernameExist(username))
+    {
+        std::cerr << "This username does not exist.\n";
+        return false;
+    }
+
+    std::string path = "data/account/" + username + ".dat";
+    std::ifstream dataFile(path);
+
+    if (!dataFile.is_open())
+    {
+        std::cerr << "Error opening user file\n"
+                  << std::endl;
+        return false; // Return false if the file cannot be opened
+    }
+
+    std::string temp;
+    std::getline(dataFile, temp);
+    std::getline(dataFile, temp);
+
+    if (temp == password)
+    {
+        return true;
+    }
+
+    std::cerr << "Invalid password.\n";
+    return false;
 }
 
 /*void Member::processRequest(Request& request, bool accept) {
