@@ -167,3 +167,11 @@ void Member::rejectOtherRequests(const std::string& memberUsername) {
         }
     }
 }
+
+void Member::blockMember(const std::string& memberUsername) {
+    blockedMembers.push_back(memberUsername);
+}
+
+bool Member::isMemberBlocked(const std::string& memberUsername) const {
+    return std::find(blockedMembers.begin(), blockedMembers.end(), memberUsername) != blockedMembers.end();
+}

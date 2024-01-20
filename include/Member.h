@@ -78,6 +78,9 @@ public:
     void processRequest(Request& request, bool accept);
     private:
     void rejectOtherRequests(const std::string& memberUsername);
+
+    void blockMember(const std::string& memberUsername);
+    bool isMemberBlocked(const std::string& memberUsername) const;
 };
 
 #endif  // MEMBER_H
