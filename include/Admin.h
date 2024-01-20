@@ -1,4 +1,3 @@
-#ifndef ADMIN_H
 #define ADMIN_H
 
 #include "User.h"
@@ -13,13 +12,9 @@
 class Admin: public User {
 public:
     //Constructor
-    Admin(const std::string &username, const std::string &password);
+    Admin(std::string username, std::string password);
 
     //Function to change data of a user
-
-    void changeInfo(User &user);
-
-    void resetPassword(User &user);
+    void changeInfo(Member member);
+    void resetPassword(Member member);
 };
-
-#endif // ADMIN_H

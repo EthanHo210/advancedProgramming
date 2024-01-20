@@ -23,7 +23,7 @@ private:
     Member supporter;
     State state;
 public:
-    Request(Member &host, Member &supporter);
+    Request(Member host, Member supporter);
 
     void setAccepted();
 

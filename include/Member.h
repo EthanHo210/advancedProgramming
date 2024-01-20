@@ -7,29 +7,32 @@
 #include <vector>
 #include <string>
 
+using std::string;
+using std::vector;
 
-using std::string, std::vector;
-
-class Member : public User {
+class Member : public User
+{
 private:
-    std::string ID;
-    string fullName;
-    string phoneNumber;
-    string email;
-    string address;
+    std::string fullName;
+    std::string phoneNumber;
+    std::string email;
+    std::string address;
     int creditPoints;
     bool isSupporting;
-    vector<Member *> blockList;
+    std::vector<std::string> blockList;
+    std::string skill;
+    double requiredHostScore;
+
 public:
     // Constructor
-    Member(string &username, string &password,
-           string &fullName, string &phoneNumber, string &email,
-           string &address, int creditPoints);
+    Member(std::string username, std::string password,
+           std::string fullName, std::string phoneNumber, std::string email,
+           std::string address, int creditPoints, bool isSupporting, vector<std::string> blockList, std::string skill, double requiredHostScore);
 
-    Member(std::string &username, std::string &password);
+    // Register member
+    static void registerMember(std::string username, std::string password);
 
     // Implementation of the displayInfo function
-    std::string getID() const { return ID; }
     std::string getUsername() const { return username; }
     std::string getPassword() const { return password; }
     std::string getFullName() const { return fullName; }
@@ -39,7 +42,6 @@ public:
     int getCreditPoints() const { return creditPoints; }
 
     // Public setter functions
-    void setID(const std::string& newID) { ID = newID; }
     void setUsername(const std::string& newUsername) { username = newUsername; }
     void setPassword(const std::string& newPassword) { password = newPassword; }
     void setFullName(const std::string& newFullName) { fullName = newFullName; }
@@ -47,13 +49,15 @@ public:
     void setEmail(const std::string& newEmail) { email = newEmail; }
     void setAddress(const std::string& newAddress) { address = newAddress; }
     void setCreditPoints(int newCreditPoints) { creditPoints = newCreditPoints; }
+    static void displayInfo(std::string name);
 
-    void browse(const std::string& searchString);
-    void book(Member& supporter);
+    void browse(const std::string &searchString);
+    void book(Member &supporter);
     void enableSupport();
     void endSession();
-    void rate(const Member& ratedMember);
-    void displayInformation() const;
+    void rate(const Member &ratedMember);
+    void static displayInfo(std::string name);
 
+    static bool isValidAddress(std::string address);
     friend class TimeBank;
 };

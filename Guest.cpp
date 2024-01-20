@@ -1,14 +1,22 @@
 #include <iostream>
 #include "include/Guest.h"
+#include <fstream>
 
-Guest::Guest(std::string &username, std::string &password) : User(username, password) {}
+Guest::Guest(std::string username, std::string password) : User(username, password)
+{
+}
+
+void Guest::displayInfo()
+{
+    std::cout << username << password << std::endl;
+}
 
 std::string Guest::getUserName()
 {
-    return this->username;
+    return username;
 };
 
 std::string Guest::getPassWord()
 {
-    return this->password;
-};
+    return password;
+}

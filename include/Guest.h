@@ -5,7 +5,9 @@
 class Guest : public User
 {
 public:
-    Guest(std::string &username, std::string &password);
+    Guest(std::string username, std::string password);
+
+    void displayInfo();
 
     std::string getUserName();
 
