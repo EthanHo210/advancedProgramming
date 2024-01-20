@@ -65,4 +65,6 @@ public:
 
     void processRequest(Request &request, bool accept);
     void rejectOtherRequests(const std::string &memberUsername);
+    void blockMember(const std::string &username);
+    bool isMemberBlocked(const std::string &username) const;
 };

@@ -149,7 +149,7 @@ void Member::displayInfo(std::string name)
     inputFile.close();
 }
 
-void Member::processRequest(Request& request, bool accept) {
+/*void Member::processRequest(Request& request, bool accept) {
     if (accept) {
         request.setAccepted();
         rejectOtherRequests(request.getHost().getUsername());
@@ -158,10 +158,29 @@ void Member::processRequest(Request& request, bool accept) {
     }
 }
 
-void Member::rejectOtherRequests(const std::string& memberUsername) {
+void Member::rejectOtherRequests(const std::string& username) {
     // for (Request& otherRequest : requestsList) {
-    //     if (otherRequest.getHost().getUsername() == memberUsername) {
+    //     if (otherRequest.getHost().getUsername() == username) {
     //         otherRequest.setRejected();
     //     }
     // }
+}*/
+
+void Member::blockMember(const std::string& username) {
+    if (isMemberBlocked(username)) {
+        std::cout << "You have successfully blocked this member." << std::endl;
+        return;
+    }    
+    blockMembers.push_back(new Member(username, ""));
+     saveMember(getUsername());
 }
+
+bool Member::isMemberBlocked(const std::string& username) const {
+    return std::find(blockedMembers.begin(), blockedMembers.end(), username) != blockedMembers.end();
+}
+
+/*if (!Member::isMemberBlocked()) {
+        Member::displayInfo();  
+    } else {
+        std::cout << "Access Denied. You have been blocked by this member.\n";
+    } */
