@@ -23,9 +23,6 @@ int main(int argc, char const *argv[]) {
                  "Enter your choice: ";
 
 
-int userType;
-std::cin >> userType;
-
     std::cin >> userType;
     std::string username;
     std::string password;
