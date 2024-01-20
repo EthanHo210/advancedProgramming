@@ -71,20 +71,28 @@ void Member::book(Member& supporter) {
 }
 
 void Member::browse(const std::string& city) {
-    // Implementation for browsing suitable supporters in the specified city
+    // Assuming you have a global vector of supporters or some other way to get supporters
+    extern std::vector<Member> supportersList;
+
+    // Assuming getConsumingPoints and getRatingScore are member functions of the Member class
+    // Replace these with the actual functions you have in your class
+    auto getConsumingPoints = [](const Member& supporter) { return supporter.getCreditPoints(); };
+    auto getRatingScore = [](const Member& supporter) { /* replace with actual implementation */ return 0; };
+    
+    // Assuming minRatingScore is a constant or variable defined elsewhere
+    int minRatingScore = /* replace with actual value */ 0;
 
     // Iterate through supporters and filter based on criteria
     for (const Member& supporter : supportersList) {
         // Check if supporter is in the specified city
         if (supporter.getAddress() == city) {
             // Check if member has enough credit points to book the supporter
-            if (creditPoints >= supporter.getConsumingPoints()) {
+            if (getCreditPoints() >= getConsumingPoints(supporter)) {
                 // Check if supporter's rating score is acceptable (modify as needed)
-                if (supporter.getRatingScore() >= minRatingScore) {
+                if (getRatingScore(supporter) >= minRatingScore) {
                     // Display supporter information
-                    std::cout << "Supporter ID: " << supporter.getID() << "\n";
                     std::cout << "Username: " << supporter.getUsername() << "\n";
-                    std::cout << "Rating Score: " << supporter.getRatingScore() << "\n";
+                    std::cout << "Rating Score: " << getRatingScore(supporter) << "\n";
                     // Add more supporter information if needed
                     std::cout << "-----------------------------\n";
                 }
@@ -118,11 +126,11 @@ void Member::rate(const Member& ratedMember) {
     std::cin >> supporterRating;
 
     // Create Score objects for skill and supporter ratings
-    SkillScore skillScore(skillRating);
+    
     SupporterScore supporterScore(supporterRating);
 
     // Update the rated member's scores
-    ratedMember.skillScore = skillScore;
+-
     ratedMember.supporterScore = supporterScore;
 
     std::cout << "Rating successful!\n";
