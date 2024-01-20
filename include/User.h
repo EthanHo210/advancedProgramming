@@ -1,5 +1,4 @@
-#ifndef USER_H
-#define USER_H
+#pragma once
 #include <string>
 #include <vector>
 
@@ -21,5 +20,3 @@ public:
     // Getter for password
     std::string getPassword();
 };
-
-#endif // USER_H
