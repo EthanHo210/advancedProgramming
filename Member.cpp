@@ -10,10 +10,25 @@ Member::Member(std::string username, std::string password,
 
 Member::Member(std::string username, std::string password)
     : User(username, password), fullName(""), phoneNumber(""),
-      email(""), address(""), isSupporting(false) {}
+      email(""), address(""), isSupporting(false)
+{
+  std::string path = "data/account/" + username + ".dat";
+
+  std::ofstream dataFile;
+  dataFile.open(path, std::ios::in | std::ios::app);
+  if (!dataFile.is_open())
+  {
+    std::cerr << "Fail to create/open file \n";
+  }
+  // Store in the file
+  dataFile << username << "\n";
+  dataFile << password << "\n";
+  dataFile.close();
+}
 
 // SHOW THE ENTIRE MEMBERS FILE
-void Member::showAllInfo(string name){
+void Member::showAllInfo(string name)
+{
   string temp;
   std::ifstream dataFile;
   dataFile.open(name, std::ios::in); // read
