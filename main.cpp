@@ -22,6 +22,10 @@ int main(int argc, char const *argv[]) {
                  "Use the app as:  1. Guest -  2. Member  -  3. Admin\n" <<
                  "Enter your choice: ";
 
+
+int userType;
+std::cin >> userType;
+
     std::cin >> userType;
     std::string username;
     std::string password;
