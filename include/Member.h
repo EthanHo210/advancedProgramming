@@ -5,22 +5,20 @@
 #include <vector>
 #include <string>
 
-using std::string, std::vector;
-
 class Member : public User {
 private:
-    string fullName;
-    string phoneNumber;
-    string email;
-    string address;
+    std::string fullName;
+    std::string phoneNumber;
+    std::string email;
+    std::string address;
     int creditPoints;
     bool isSupporting;
-    vector<Member *> blockList;
+    std::vector<Member *> blockList;
 public:
     // Constructor
-    Member(string &username, string &password,
-           string &fullName, string &phoneNumber, string &email,
-           string &address, int creditPoints);
+    Member(std::string &username, std::string &password,
+           std::string &fullName, std::string &phoneNumber, std::string &email,
+           std::string &address, int creditPoints);
 
     Member(std::string &username, std::string &password);
 
@@ -37,7 +35,7 @@ public:
     }
 
     // Other member functions for Member class
-    void browse(string& criteria) {
+    void browse(std::string& criteria) {
         // Implement browse functionality
     }
 
