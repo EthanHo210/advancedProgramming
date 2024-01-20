@@ -148,3 +148,20 @@ void Member::displayInfo(std::string name)
 
     inputFile.close();
 }
+
+void Member::processRequest(Request& request, bool accept) {
+    if (accept) {
+        request.setAccepted();
+        rejectOtherRequests(request.getHost().getUsername());
+    } else {
+        request.setRejected();
+    }
+}
+
+void Member::rejectOtherRequests(const std::string& memberUsername) {
+    // for (Request& otherRequest : requestsList) {
+    //     if (otherRequest.getHost().getUsername() == memberUsername) {
+    //         otherRequest.setRejected();
+    //     }
+    // }
+}

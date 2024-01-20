@@ -1,4 +1,5 @@
 #pragma once
+#include "Request.h"
 #include "User.h"
 #include <iostream>
 #include <fstream>
@@ -61,4 +62,7 @@ public:
     void static displayInfo(std::string name);
     static bool isValidAddress(std::string address);
     friend class TimeBank;
+
+    void processRequest(Request &request, bool accept);
+    void rejectOtherRequests(const std::string &memberUsername);
 };
