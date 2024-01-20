@@ -5,10 +5,19 @@
 #include "include/Request.h"
 #include "include/TimeBank.h"
 #include "include/User.h"
+#include "include/Time.h"
 #include <cstdlib> 
 
 int main(int argc, char const *argv[]) {
     int userType;
+
+    Member newMember ("","","Hung","","","", 0, "");
+    Member secondMember ("","","Long","","","", 0, "");
+    Member thirdMember ("","","Hieu","","","", 0, "");
+    Member fourthMember ("","","Ha","","","", 0, "");
+    newMember.book("suck cock", "2:00", "7:00", secondMember.getname(),newMember.getname());
+    newMember.book("suck cock", "2:00", "7:00", thirdMember.getname(),newMember.getname());
+    newMember.book("suck cock", "2:00", "7:00", fourthMember.getname(),newMember.getname());
     
     std::cout << "EEET2482/COSC2082 ASSIGNMENT\n" <<
                  "\"TIME BANK\" APPLICATION\n" <<

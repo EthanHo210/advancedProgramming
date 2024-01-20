@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Member.h"
+#include "Time.h"
 
 class Request
 {
@@ -11,12 +12,18 @@ private:
         Rejected,
         Pending
     };
-   
-    Member host;
-    Member supporter;
+
+    string hostName;
+    string supporterName;
+    string skill;
+    Time timeObject;
     State state;
 public:
-    Request(Member host, Member supporter);
+    Request(string hostName,string supporterName, Time &time_Object, string skill);
+
+    void curReq(string hostName, string supporterName);
+
+    void pendingReq(string supporterName, string hostName);
 
     void setAccepted();
 

@@ -16,14 +16,19 @@ private:
     std::string address;
     int creditPoints;
     bool isSupporting;
+    string skill;
     std::vector<Member *> blockList;
 public:
     // Constructor
     Member(std::string username, std::string password,
            std::string fullName, std::string phoneNumber, std::string email,
-           std::string address, int creditPoints);
+           std::string address, int creditPoints, string skill);
 
     Member(std::string username, std::string password);
+
+    std::string getname() const { return fullName; }
+
+    std::string getskill() const { return skill; }  
 
     // Implementation of the displayInfo function
     void displayInfo() override
@@ -71,5 +76,7 @@ public:
 
     void rate(Member& member) {
         // Implement rate functionality
-    }
+    } 
+
+    void book(string skill, string start_Time, string end_Time, string bookedPerson ,string booker) {}  
 };

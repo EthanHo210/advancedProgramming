@@ -1,16 +1,27 @@
 #include "include/Member.h"
+#include "include/Time.h"
+#include "include/Request.h"
 #include <vector>
 #include <fstream>
 
 Member::Member(std::string username, std::string password,
                std::string fullName, std::string phoneNumber, std::string email,
-               std::string address, int creditPoints)
+               std::string address, int creditPoints, string skill)
     : User(username, password), fullName(fullName), phoneNumber(phoneNumber),
-      email(email), address(address), isSupporting(false) {}
+      email(email), address(address), isSupporting(false), skill(skill) {}
 
 Member::Member(std::string username, std::string password)
     : User(username, password), fullName(""), phoneNumber(""),
       email(""), address(""), isSupporting(false) {}
+
+void book(string skill, string start_Time, string end_Time, string bookedPerson ,string booker) 
+        {
+        // Implement book functionality
+        Time time_Object;
+        time_Object.startTime = start_Time;
+        time_Object.endTime = end_Time;
+        Request requested (booker, bookedPerson, time_Object, skill);
+        }
 
 // SHOW THE ENTIRE MEMBERS FILE
 void Member::showAllInfo(string name){
