@@ -7,7 +7,6 @@
 class TimeBank
 {
 private:
-    int initialEntryFee;
     std::vector<std::string> allUser;
     std::string session;
 

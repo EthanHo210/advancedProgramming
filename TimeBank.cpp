@@ -2,7 +2,7 @@
 #include "include/Guest.h"
 #include <limits>
 
-TimeBank::TimeBank() : initialEntryFee(20), allUser({}), session(""){};
+TimeBank::TimeBank() : allUser({}), session(""){};
 
 void TimeBank::saveAllData()
 {
@@ -99,9 +99,9 @@ bool TimeBank::changeContentByLine(std::string path, int lineNumber, std::string
         std::cerr << "Error opening file: " << path << std::endl;
         return false;
     }
-    for (const auto &l : lines)
+    for (std::string line : lines)
     {
-        outputFile << l << std::endl;
+        outputFile << line << std::endl;
     }
     outputFile.close();
     return true;
@@ -138,9 +138,9 @@ bool TimeBank::appendContentByLine(std::string path, int lineNumber, std::string
         std::cerr << "Error opening file: " << path << std::endl;
         return false;
     }
-    for (const auto &l : lines)
+    for (std::string line : lines)
     {
-        outputFile << l << std::endl;
+        outputFile << line << std::endl;
     }
     outputFile.close();
     return true;

@@ -8,7 +8,8 @@
 using std::string;
 using std::vector;
 
-class Member : public User {
+class Member : public User
+{
 private:
     std::string fullName;
     std::string phoneNumber;
@@ -16,14 +17,18 @@ private:
     std::string address;
     int creditPoints;
     bool isSupporting;
-    std::vector<Member *> blockList;
+    std::vector<std::string> blockList;
+    std::string skill;
+    double requiredHostScore;
+
 public:
     // Constructor
     Member(std::string username, std::string password,
            std::string fullName, std::string phoneNumber, std::string email,
-           std::string address, int creditPoints);
+           std::string address, int creditPoints, bool isSupporting, vector<std::string> blockList, std::string skill, double requiredHostScore);
 
-    Member(std::string username, std::string password);
+    // Register member
+    static void registerMember(std::string username, std::string password);
 
     // Implementation of the displayInfo function
     void displayInfo() override
@@ -37,23 +42,28 @@ public:
         std::cout << "Address: " << address << std::endl;
     }
     // Other member functions for Member class
-    void browse(std::string& criteria) {
+    void browse(std::string &criteria)
+    {
         // Implement browse functionality
     }
 
-    void book(Member& member) {
+    void book(Member &member)
+    {
         // Implement book functionality
     }
 
-    void enableSupport() {
+    void enableSupport()
+    {
         // Implement enableSupport functionality
     }
 
-    void endSession() {
+    void endSession()
+    {
         // Implement endSession functionality
     }
 
-    void rate(Member& member) {
+    void rate(Member &member)
+    {
         // Implement rate functionality
     }
 };
