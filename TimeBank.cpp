@@ -37,9 +37,8 @@ std::string TimeBank::login()
         {
 
             std::cout << "Are you new here?\n"
-                      << "1. Login\n"
-                      << "2. Register\n"
-                      << "-- Register as member --\n";
+                      << "1. Register\n"
+                      << "2. View supporters\n";
 
             if (!(std::cin >> option))
             {
@@ -51,11 +50,10 @@ std::string TimeBank::login()
             switch (option)
             {
             case 1:
-                break;
-            case 2:
                 while (true)
                 {
-                    std::cout << "Username: ";
+                    std::cout << "-- Register as member --\n"
+                              << "Username: ";
                     std::cin >> username;
 
                     std::cout << "Password: ";
@@ -72,6 +70,9 @@ std::string TimeBank::login()
                         std::cerr << "Error: " << e.what() << std::endl;
                     }
                 }
+                break;
+            case 2:
+                return "guest";
                 break;
             default:
                 std::cerr << "Error: Invalid input\n";
