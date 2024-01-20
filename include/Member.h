@@ -5,6 +5,9 @@
 #include <vector>
 #include <string>
 
+using std::string;
+using std::vector;
+
 class Member : public User {
 private:
     std::string fullName;
@@ -42,6 +45,12 @@ public:
 
     // WRITE TO FILE
     static bool saveMember(std::string name);
+
+    // CHANGE FILE CONTENT BY LINE
+    static bool changeContentByLine(string filename, int lineNumber, string newContent);
+
+    // CHANGE THE FILE CONTENT IN DESIRE POSITION (MATCHED SEARCH STRING)
+    static bool changeFileContent(string name, string search, string input, char ch);
 
     // Other member functions for Member class
     void browse(std::string& criteria) {
