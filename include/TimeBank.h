@@ -2,7 +2,8 @@
 
 #include <iostream>
 
-class TimeBank {
+class TimeBank
+{
 private:
     int initialEntryFee;
 
@@ -15,4 +16,6 @@ public:
 
     // Member function to load all data
     void loadAllData();
+
+    static std::string login();
 };
