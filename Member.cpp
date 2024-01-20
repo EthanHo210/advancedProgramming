@@ -4,6 +4,10 @@
 #include <vector>
 #include <fstream>
 
+using std::cin;
+using std::cout;
+using std::string;
+
 Member::Member(std::string username, std::string password,
                std::string fullName, std::string phoneNumber, std::string email,
                std::string address, int creditPoints, string skill)
@@ -14,14 +18,56 @@ Member::Member(std::string username, std::string password)
     : User(username, password), fullName(""), phoneNumber(""),
       email(""), address(""), isSupporting(false) {}
 
-void book(string skill, string start_Time, string end_Time, string bookedPerson ,string booker) 
+void Member::book(string skill, string start_Time, string end_Time, string bookedPerson) 
         {
         // Implement book functionality
         Time time_Object;
         time_Object.startTime = start_Time;
         time_Object.endTime = end_Time;
-        Request requested (booker, bookedPerson, time_Object, skill);
+        Request requested (this->fullName, bookedPerson, time_Object, skill);
         }
+
+void Member::enableSupport() {
+        // Implement enableSupport functionality
+        string filename;
+        string mainFile;
+        filename = "Data/skill/" + this->fullName + ".dat";
+        mainFile = "Data/account/" + this->fullName + ".dat";
+        string timeConsume;
+        string minHost;
+        int minHostscore;
+        // set status = true
+        isSupporting = true;
+        // input skill
+        cout << "Please input your skills:\n";
+        std::getline(cin >> std::ws, skill); 
+        save_All_Members(filename, skill);
+        // input point/hour
+        cout << "What is your consuming point/hour:\n";
+        cin >> timeConsume; // save to skill file
+        save_All_Members(filename, timeConsume);
+        // input min rating score
+        cout << "Please input your min host rating score:\n";
+        cin >> minHost; // line 11 in the account file
+        // convert string to int
+        std::stringstream sstr(minHost);
+        sstr >> minHostscore;
+        if (minHostscore > 5) // check if the score is in the range
+        {
+            cout << "Please enter score from 1 to 5\n";
+            cin >> minHost;
+            change_Content_By_Line (mainFile, 11, minHost);
+        }
+        else
+        {
+            change_Content_By_Line (mainFile, 11, minHost);
+        }
+    }
+
+void Member::disableSupport()
+    {
+        isSupporting = false;
+    }
 
 // SHOW THE ENTIRE MEMBERS FILE
 void Member::showAllInfo(string name){

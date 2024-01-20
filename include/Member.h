@@ -62,13 +62,9 @@ public:
         // Implement browse functionality
     }
 
-    void book(Member& member) {
-        // Implement book functionality
-    }
+    void enableSupport();
 
-    void enableSupport() {
-        // Implement enableSupport functionality
-    }
+    void disableSupport();
 
     void endSession() {
         // Implement endSession functionality
@@ -78,5 +74,5 @@ public:
         // Implement rate functionality
     } 
 
-    void book(string skill, string start_Time, string end_Time, string bookedPerson ,string booker) {}  
+    void book(string skill, string start_Time, string end_Time, string bookedPerson );
 };

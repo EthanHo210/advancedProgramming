@@ -93,6 +93,40 @@ bool change_Content_By_Line (string& filename, int lineNumber, string newContent
     return true;
 }
 
+// READ CONTENT BY LINE
+bool read_Content_By_Line (string& filename, int lineNumber) {
+    bool statusCheck;
+    string readStatus;
+    std::ifstream inputFile(filename);
+    if (!inputFile.is_open()) {
+        std::cout << "Error opening file: " << filename << std::endl;
+        return false;
+    } 
+    std::vector<std::string> lines;
+    std::string line;
+    while (std::getline(inputFile, line)) {
+        lines.push_back(line);
+    }
+    inputFile.close();
+// check if input invalid line
+    if (lineNumber < 1 || lineNumber > lines.size()) {
+        std::cout << "Invalid line number: " << lineNumber << std::endl;
+        return false;
+    }
+    // write to line string 
+    readStatus = lines[lineNumber - 1];
+    if (readStatus == "true")
+    {
+        statusCheck = true;
+    }
+    else{
+        statusCheck = false;
+    }
+    outputFile.close();
+    return statusCheck;
+}
+
+
 
 // CHANGE THE FILE CONTENT IN DESIRE POSITION (MATCHED SEARCH STRING)
 void change_FILE_Content (string search, string input, char ch) // string to search and newcontent as input

@@ -12,13 +12,13 @@ Request::Request(string hostName,string supporterName, Time &time_Object, string
         pendingReq(supporterName, hostName);
     }
 
-void curReq(string hostName, string supporterName)
+void Request::curReq(string hostName, string supporterName)
     {
         string filename = "Data/current/" + hostName + ".dat";
         //innit(filename);
         save_All_Members(filename, supporterName);
     }
-void pendingReq(string supporterName, string hostName)
+void Request::pendingReq(string supporterName, string hostName)
     {
         string filename = "Data/Pending/" + supporterName + ".dat";
         //innit(filename);
