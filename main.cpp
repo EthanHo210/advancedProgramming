@@ -10,7 +10,7 @@
 
 int main(int argc, char const *argv[])
 {
-    Score score = Score::getScores;
+    Score score = Score::getScores("data/system/Score.dat");
     std::cout << score.getAvgScore();
     TimeBank system;
 
