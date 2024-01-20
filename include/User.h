@@ -11,7 +11,7 @@ protected:
     static std::vector<std::string> nameList;
 public:
     // Constructor
-    User(std::string &username, std::string &password);
+    User(std::string username, std::string password);
 
     // Pure virtual function to make the class abstract
     virtual void displayInfo() = 0;

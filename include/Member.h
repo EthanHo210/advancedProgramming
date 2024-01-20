@@ -16,11 +16,11 @@ private:
     std::vector<Member *> blockList;
 public:
     // Constructor
-    Member(std::string &username, std::string &password,
-           std::string &fullName, std::string &phoneNumber, std::string &email,
-           std::string &address, int creditPoints);
+    Member(std::string username, std::string password,
+           std::string fullName, std::string phoneNumber, std::string email,
+           std::string address, int creditPoints);
 
-    Member(std::string &username, std::string &password);
+    Member(std::string username, std::string password);
 
     // Implementation of the displayInfo function
     void displayInfo() override

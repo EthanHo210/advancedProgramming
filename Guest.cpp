@@ -1,17 +1,17 @@
 #include "include/Guest.h"
 
-Guest::Guest(std::string &username, std::string &password) : User(username, password) {}
+Guest::Guest(std::string username, std::string password) : User(username, password) {}
 
 std::string Guest::getUserName(){
-    return this->username;
+    return username;
 };
 
 std::string Guest::getPassWord(){
-    return this->password;
+    return password;
 };
 
 Member Guest::registerAsMember(){
-    Member newMember(this->username, this->password);
+    Member newMember(username, password);
 
     return newMember;
 }

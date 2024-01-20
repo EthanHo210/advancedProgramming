@@ -6,7 +6,7 @@
 class Admin: public User {
 public:
     //Constructor
-    Admin(std::string &username, std::string &password);
+    Admin(std::string username, std::string password);
 
     //Function to change data of a user
     void changeInfo(Member member);
