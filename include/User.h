@@ -18,9 +18,6 @@ public:
 
     static void displayNames();
 
-    // Getter for ID
-    std::string getId();
-
     // Getter for username
     std::string getUsername();
 
