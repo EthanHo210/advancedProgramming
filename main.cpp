@@ -5,10 +5,13 @@
 #include "include/Request.h"
 #include "include/TimeBank.h"
 #include "include/User.h"
+#include "include/Score.h"
 #include <cstdlib>
 
 int main(int argc, char const *argv[])
 {
+    Score score = Score::getScores;
+    std::cout << score.getAvgScore();
     TimeBank system;
 
     system.loadAllData();
