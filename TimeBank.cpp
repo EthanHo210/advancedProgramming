@@ -74,7 +74,7 @@ std::string TimeBank::login()
                 }
                 break;
             default:
-                std::cerr << "Error: Invalid input";
+                std::cerr << "Error: Invalid input\n";
                 break;
             }
         }
