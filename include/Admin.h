@@ -10,10 +10,5 @@ public:
 
     //Function to change data of a user
     void changeInfo(Member member);
-
     void resetPassword(Member member);
-
-    void changeInfo(User user);
-
-    void resetPassword(User user);
-};
+}
