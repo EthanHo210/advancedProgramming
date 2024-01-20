@@ -80,4 +80,4 @@ public:
     void rejectOtherRequests(const std::string& memberUsername);
 };
 
-#endif  // REQUEST_H
+#endif  // MEMBER_H

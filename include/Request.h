@@ -27,3 +27,5 @@ public:
     Member getSupporter() const { return supporter; }
 
 };
+
+#endif  // REQUEST_H
