@@ -46,25 +46,30 @@ int main(int argc, char const *argv[]) {
     }
 
     case 2: {
-        std::cout << "Logging in as member.\n" <<
-                     "Enter username: ";
-            std::cin >> username;
-        std::cout << "Enter password: ";
-            std::cin >> password;    
+    std::cout << "Logging in as a member.\n" <<
+                 "Enter username: ";
+    std::cin >> username;
+    std::cout << "Enter password: ";
+    std::cin >> password;    
 
-            int memberChoice;
-            do {
-                std::cout << "\nThis is your menu:\n" <<
-                             "0. Exit\n" <<
-                             "1. View Information\n" <<
-                             "2. ...\n" <<
-                             "Enter your choice: ";
-                std::cin >> memberChoice;
-            } while (memberChoice != 0);
-            if (memberChoice == 0) {
-        std::cout << "Returning to main menu.\n";
+    int memberChoice;
+    do {
+        std::cout << "\nThis is your menu:\n" <<
+                     "0. Exit\n" <<
+                     "1. View Information\n" <<
+                     "2. ...\n" <<
+                     "Enter your choice: ";
+        std::cin >> memberChoice;
+        switch (memberChoice) {
+            case 0:
+                std::cout << "Returning to the main menu.\n";
+                break;
+            default:
+                std::cout << "Invalid choice. Returning to the main menu.\n";
+                break;
         }
-        break;
+        } while (memberChoice != 0);
+    break;
     }
 
     case 3: {
@@ -79,4 +84,6 @@ int main(int argc, char const *argv[]) {
     default:
          std::cout << "Invalid choice. Returning to main menu.\n";
     }
-}
+}    
+
+
