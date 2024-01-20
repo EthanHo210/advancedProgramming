@@ -19,7 +19,7 @@ private:
     std::string address;
     int creditPoints;
     bool isSupporting;
-    std::vector<Member *> blockedMembers;
+    std::vector<std::string> blockedMembers;
 public:
     // Constructor
     Member(std::string username, std::string password,

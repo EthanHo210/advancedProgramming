@@ -169,7 +169,7 @@ bool Member::changeFileContent(string name, string search, string input, char ch
   return true;
 }
 
-void Member::processRequest(Request& request, bool accept) {
+/*void Member::processRequest(Request& request, bool accept) {
     if (accept) {
         request.setAccepted();
         rejectOtherRequests(request.getHost().getUsername());
@@ -184,7 +184,7 @@ void Member::rejectOtherRequests(const std::string& username) {
             otherRequest.setRejected();
         }
     }
-}
+}*/
 
 void Member::blockMember(const std::string& username) {
     if (isMemberBlocked(username)) {
