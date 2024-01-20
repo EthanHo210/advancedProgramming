@@ -1,11 +1,4 @@
 #include "include/Member.h"
-#include <iostream>
-#include <fstream>
-#include <iomanip>
-#include <vector>
-#include <string>
-#include <algorithm>
-#include <limits>
 
 Member::Member(std::string username, std::string password,
                std::string fullName = "", std::string phoneNumber = "", std::string email = "",
@@ -69,51 +62,51 @@ Member::Member(std::string username, std::string password,
 
 void Member::registerMember(std::string username, std::string password)
 {
-  std::string fullName;
-  std::string phoneNumber;
-  std::string email;
-  std::string address;
-  std::string skill;
+    std::string fullName;
+    std::string phoneNumber;
+    std::string email;
+    std::string address;
+    std::string skill;
 
-  std::cout << "Please enter the following fields:\n";
+    std::cout << "Please enter the following fields:\n";
 
-  std::cout << "Full name: ";
-  std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-  std::getline(std::cin, fullName);
+    std::cout << "Full name: ";
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    std::getline(std::cin, fullName);
 
-  std::cout << "Phone number: ";
-  std::getline(std::cin, phoneNumber);
+    std::cout << "Phone number: ";
+    std::getline(std::cin, phoneNumber);
 
-  std::cout << "Email: ";
-  std::getline(std::cin, email);
+    std::cout << "Email: ";
+    std::getline(std::cin, email);
 
-  do
-  {
-    std::cout << "Address: ";
-    std::getline(std::cin, address);
-
-    if (!isValidAddress(address))
+    do
     {
-      std::cout << "Invalid address. Please enter an address containing 'Ha Noi' or 'Sai Gon'.\n";
-    }
-  } while (!isValidAddress(address));
+        std::cout << "Address: ";
+        std::getline(std::cin, address);
 
-  std::cout << "Your skill: ";
-  std::getline(std::cin, skill);
+        if (!isValidAddress(address))
+        {
+            std::cout << "Invalid address. Please enter an address containing 'Ha Noi' or 'Sai Gon'.\n";
+        }
+    } while (!isValidAddress(address));
 
-  Member newMember(username, password, fullName, phoneNumber, email, address, 20, false, {}, skill, 0);
+    std::cout << "Your skill: ";
+    std::getline(std::cin, skill);
 
-  std::string path = "data/account/" + username + ".dat";
+    Member newMember(username, password, fullName, phoneNumber, email, address, 20, false, {}, skill, 0);
+
+    std::string path = "data/account/" + username + ".dat";
 }
 
 bool Member::isValidAddress(std::string address)
 {
-  // Convert the address to lowercase for case-insensitive comparison
-  std::string lowercaseAddress = address;
-  std::transform(lowercaseAddress.begin(), lowercaseAddress.end(), lowercaseAddress.begin(), ::tolower);
+    // Convert the address to lowercase for case-insensitive comparison
+    std::string lowercaseAddress = address;
+    std::transform(lowercaseAddress.begin(), lowercaseAddress.end(), lowercaseAddress.begin(), ::tolower);
 
-  // Check if the address contains "ha noi" or "sai gon"
-  return (lowercaseAddress.find("ha noi") != std::string::npos || lowercaseAddress.find("sai gon") != std::string::npos);
+    // Check if the address contains "ha noi" or "sai gon"
+    return (lowercaseAddress.find("ha noi") != std::string::npos || lowercaseAddress.find("sai gon") != std::string::npos);
 }
 
 void Member::displayInfo(std::string name)

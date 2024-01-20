@@ -6,6 +6,8 @@
 #include <iomanip>
 #include <vector>
 #include <string>
+#include <algorithm>
+#include <limits>
 
 using std::string;
 using std::vector;
@@ -42,22 +44,21 @@ public:
     int getCreditPoints() const { return creditPoints; }
 
     // Public setter functions
-    void setUsername(const std::string& newUsername) { username = newUsername; }
-    void setPassword(const std::string& newPassword) { password = newPassword; }
-    void setFullName(const std::string& newFullName) { fullName = newFullName; }
-    void setPhoneNumber(const std::string& newPhoneNumber) { phoneNumber = newPhoneNumber; }
-    void setEmail(const std::string& newEmail) { email = newEmail; }
-    void setAddress(const std::string& newAddress) { address = newAddress; }
+    void setUsername(const std::string &newUsername) { username = newUsername; }
+    void setPassword(const std::string &newPassword) { password = newPassword; }
+    void setFullName(const std::string &newFullName) { fullName = newFullName; }
+    void setPhoneNumber(const std::string &newPhoneNumber) { phoneNumber = newPhoneNumber; }
+    void setEmail(const std::string &newEmail) { email = newEmail; }
+    void setAddress(const std::string &newAddress) { address = newAddress; }
     void setCreditPoints(int newCreditPoints) { creditPoints = newCreditPoints; }
-    static void displayInfo(std::string name);
 
     void browse(const std::string &searchString);
     void book(Member &supporter);
     void enableSupport();
     void endSession();
     void rate(const Member &ratedMember);
-    void static displayInfo(std::string name);
 
+    void static displayInfo(std::string name);
     static bool isValidAddress(std::string address);
     friend class TimeBank;
 };

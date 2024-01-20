@@ -1,6 +1,5 @@
 #include <iostream>
 #include "include/Admin.h"
-#include "include/Guest.h"
 #include "include/Member.h"
 #include "include/Request.h"
 #include "include/TimeBank.h"
