@@ -6,9 +6,18 @@ Member::Member(std::string username, std::string password,
     : User(username, password), fullName(fullName), phoneNumber(phoneNumber),
       email(email), address(address), isSupporting(isSupporting), creditPoints(creditPoints), blockList(blockList), skill(skill), requiredHostScore(requiredHostScore)
 {
-    std::string path = "data/account/" + username + ".dat";
+}
+
+void Member::registerMember(std::string username, std::string password)
+{
+    std::string fullName;
+    std::string phoneNumber;
+    std::string email;
+    std::string address;
+    std::string skill;
 
     // Check if the username exists in database
+    std::string path = "data/account/" + username + ".dat";
     std::ifstream checkFile(path, std::ios::out);
     if (checkFile.is_open())
     {
@@ -21,82 +30,67 @@ Member::Member(std::string username, std::string password,
     }
     else
     {
-        // Store in the file with the username
-        std::ofstream dataFile(path, std::ios::out);
+        std::cout << "\nPlease enter the following fields:\n";
 
-        dataFile << username << "\n"
-                 << password << "\n"
-                 << fullName << "\n"
-                 << phoneNumber << "\n"
-                 << email << "\n"
-                 << address << "\n"
-                 << creditPoints << "\n"
-                 << (isSupporting ? "true" : "false") << "\n";
-        for (std::string name : blockList)
+        std::cout << "Full name: ";
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::getline(std::cin, fullName);
+
+        std::cout << "Phone number: ";
+        std::getline(std::cin, phoneNumber);
+
+        std::cout << "Email: ";
+        std::getline(std::cin, email);
+
+        do
         {
-            dataFile << name << ";";
-        }
-        dataFile << "\n"
-                 << skill << "\n"
-                 << requiredHostScore << "\n";
+            std::cout << "Address: ";
+            std::getline(std::cin, address);
 
-        std::cout << "Account registered successfully.\n";
+            if (!isValidAddress(address))
+            {
+                std::cout << "Invalid address. Please enter an address containing 'Ha Noi' or 'Sai Gon'.\n";
+            }
+        } while (!isValidAddress(address));
 
-        std::ofstream systemFile("data/system/TimeBank.dat", std::ios::app);
-
-        if (systemFile.is_open())
-        {
-            systemFile << username << "\n";
-            std::cout << "Username added to database.\n";
-        }
-        else
-        {
-            throw std::runtime_error("System file is missing!\n");
-        }
-
-        checkFile.close();
-        dataFile.close();
-        systemFile.close();
+        std::cout << "Your skill: ";
+        std::getline(std::cin, skill);
     }
-}
-
-void Member::registerMember(std::string username, std::string password)
-{
-    std::string fullName;
-    std::string phoneNumber;
-    std::string email;
-    std::string address;
-    std::string skill;
-
-    std::cout << "\nPlease enter the following fields:\n";
-
-    std::cout << "Full name: ";
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-    std::getline(std::cin, fullName);
-
-    std::cout << "Phone number: ";
-    std::getline(std::cin, phoneNumber);
-
-    std::cout << "Email: ";
-    std::getline(std::cin, email);
-
-    do
-    {
-        std::cout << "Address: ";
-        std::getline(std::cin, address);
-
-        if (!isValidAddress(address))
-        {
-            std::cout << "Invalid address. Please enter an address containing 'Ha Noi' or 'Sai Gon'.\n";
-        }
-    } while (!isValidAddress(address));
-
-    std::cout << "Your skill: ";
-    std::getline(std::cin, skill);
 
     Member newMember(username, password, fullName, phoneNumber, email, address, 20, false, {}, skill, 0);
 
-    std::string path = "data/account/" + username + ".dat";
+    // Store data in the files with the username
+    std::ofstream dataFile(path, std::ios::out);
+
+    dataFile << username << "\n"
+             << password << "\n"
+             << fullName << "\n"
+             << phoneNumber << "\n"
+             << email << "\n"
+             << address << "\n"
+             << 20 << "\n"
+             << "false"
+             << "\n"
+             << skill << "\n"
+             << 0 << "\n";
+
+    std::cout << "Account registered successfully.\n";
+
+    std::ofstream systemFile("data/system/TimeBank.dat", std::ios::app);
+
+    if (systemFile.is_open())
+    {
+        systemFile << username << "\n";
+        std::cout << "Username added to database.\n";
+    }
+    else
+    {
+        throw std::runtime_error("System file is missing!\n");
+    }
+
+    checkFile.close();
+    dataFile.close();
+    systemFile.close();
 }
 
 bool Member::isValidAddress(std::string address)
@@ -109,44 +103,77 @@ bool Member::isValidAddress(std::string address)
     return (lowercaseAddress.find("ha noi") != std::string::npos || lowercaseAddress.find("sai gon") != std::string::npos);
 }
 
-void Member::displayInfo(std::string name)
+Member Member::getMember(std::string username)
 {
-    std::string filename = "data/account/" + name + ".dat"; // Assuming username is unique and used as the filename
-    std::ifstream inputFile(filename);
+    std::string path = "data/account/" + username + ".dat";
 
-    if (!inputFile.is_open())
+    std::vector<std::string> dataLines = TimeBank::readFile(path);
+
+    std::string password = dataLines[1];
+    std::string fullName = dataLines[2];
+    std::string phoneNumber = dataLines[3];
+    std::string email = dataLines[4];
+    std::string address = dataLines[5];
+    int creditPoints = std::stoi(dataLines[6]);
+    bool isSupporting = (dataLines[7] == "true");
+    std::vector<std::string> blockList = Member::extractBlockList(dataLines[8]);
+    std::string skill = dataLines[9];
+    double requiredHostScore = std::stod(dataLines[10]);
+
+    Member member(username, password, fullName, phoneNumber, email, address, creditPoints, isSupporting, blockList, skill, requiredHostScore);
+
+    return member;
+}
+
+std::vector<std::string> Member::extractBlockList(std::string data)
+{
+    if (data.empty())
     {
-        std::cout << "User does not exist. Please try again.\n";
-        return;
+        return {}; // Return an empty vector if the line is empty
     }
 
-    std::cout << "Member Information:\n";
+    std::vector<std::string> result;
+    std::istringstream stream(data);
+    std::string token;
 
-    std::string line;
-    if (std::getline(inputFile, line))
+    while (std::getline(stream, token, ';'))
     {
-        std::istringstream iss(line);
-        std::vector<std::string> fields;
-
-        // Split the line into fields
-        while (std::getline(iss, line, ','))
-        {
-            fields.push_back(line);
-        }
-
-        // Ensure there are at least 8 fields
-        if (fields.size() >= 8)
-        {
-            std::cout << "Username: " << fields[0] << "\n";
-            std::cout << "Full Name: " << fields[2] << "\n";
-            std::cout << "Phone Number: " << fields[3] << "\n";
-            std::cout << "Email: " << fields[4] << "\n";
-            std::cout << "Address: " << fields[5] << "\n";
-            std::cout << "Is Supervisor: " << (fields[7] == "1" ? "Yes" : "No") << "\n";
-        }
+        result.push_back(token);
     }
 
-    inputFile.close();
+    return result;
+}
+
+void Member::displayInfo()
+{
+    std::cout << "Username: " << username << "\n";
+    std::cout << "Full Name: " << fullName << "\n";
+    std::cout << "Phone Number: " << phoneNumber << "\n";
+    std::cout << "Email: " << email << "\n";
+    std::cout << "Address: " << address << "\n";
+    std::cout << "Is Supporting: " << isSupporting << "\n";
+}
+
+void Member::displayAllInfo()
+{
+    std::string blockedUsers = "";
+    for (std::string user : blockList)
+    {
+        blockedUsers += user + ';';
+    }
+    blockedUsers.pop_back();
+
+    std::cout << "Username: " << username << "\n"
+              << "Password: " << password << "\n"
+              << "Full Name: " << fullName << "\n"
+              << "Phone number: " << phoneNumber << "\n"
+              << "Email Address: " << email << "\n"
+              << "Home Address: " << address << "\n"
+              << "Remaining Credits: " << creditPoints << "\n"
+              << "Is supporting: " << (isSupporting ? "true" : "false") << "\n"
+              << "Users blocked: " << blockedUsers << "\n"
+              << "Skill: " << skill << "\n"
+              << "Required Host Score: " << requiredHostScore << "\n";
 }
 
 bool Member::verifyLogin(std::string username, std::string password)
@@ -219,3 +246,31 @@ bool Member::isMemberBlocked(std::string username)
     } else {
         std::cout << "Access Denied. You have been blocked by this member.\n";
     } */
+
+void Member::browseAllSupporters(std::string city)
+{
+    std::ifstream systemFile("data/system/TimeBank.dat");
+
+    std::vector<std::string> fileNames;
+
+    std::string line;
+    while (std::getline(systemFile, line))
+    {
+        fileNames.push_back(line);
+    }
+}
+
+void Member::setRequiredHostScore()
+{
+    std::string newScore;
+    std::cout << "\nSetting required host score:\n"
+              << "Input a score between 0-10 (enter 0 to disable min host score): ";
+    std::cin >> newScore;
+
+    requiredHostScore = std::stod(newScore);
+
+    std::string path = "data/account/" + username + ".dat";
+    TimeBank::changeContentByLine(path, 11, newScore);
+
+    std::cout << "Upated successfully.\n";
+}

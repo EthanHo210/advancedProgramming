@@ -26,10 +26,8 @@ int main(int argc, char const *argv[])
               << "Welcome to Time Bank:\n";
 
     system.login();
-    if ((system.getSession()).empty())
-    {
-        return 0;
-    }
+
+    std::string sessionUser = system.getSession();
 
     // Main menu
     system.main_menu();

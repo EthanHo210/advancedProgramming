@@ -61,7 +61,8 @@ public:
     void endSession();
     void rate(const Member &ratedMember);
 
-    void static displayInfo(std::string name);
+    void displayAllInfo();
+    void displayInfo();
     static bool isValidAddress(std::string address);
     friend class TimeBank;
 
@@ -69,4 +70,10 @@ public:
     void rejectOtherRequests(const std::string &memberUsername);
     void blockMember(std::string username);
     bool isMemberBlocked(std::string username);
+
+    static void browseAllSupporters(std::string city);
+    static Member getMember(std::string username);
+    static std::vector<std::string> extractBlockList(std::string data);
+
+    void setRequiredHostScore();
 };

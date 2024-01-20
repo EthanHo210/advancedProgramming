@@ -503,32 +503,13 @@ void TimeBank::manage_account()
 void TimeBank::view_account()
 {
     std::cout << "\nYour Account Information:\n";
-    std::string path = "data/account/" + session + ".dat";
 
-    std::vector<std::string> dataLines = TimeBank::readFile(path);
-
-    std::cout << "Username: " << dataLines[0] << "\n"
-              << "Password: " << dataLines[1] << "\n"
-              << "Full Name: " << dataLines[2] << "\n"
-              << "Phone number: " << dataLines[3] << "\n"
-              << "Email Address: " << dataLines[4] << "\n"
-              << "Home Address: " << dataLines[5] << "\n"
-              << "Remaining Credits: " << dataLines[6] << "\n"
-              << "Is supporting: " << dataLines[7] << "\n"
-              << "Users blocked: " << dataLines[8] << "\n"
-              << "Skill: " << dataLines[9] << "\n"
-              << "Required Host Score: " << dataLines[10] << "\n";
+    Member currUser = Member::getMember(session);
+    currUser.displayAllInfo();
 }
 
 void TimeBank::set_min_host_score()
 {
-    std::string newScore;
-    std::cout << "\nSetting required host score:\n"
-              << "Input a score between 0-10 (enter 0 to disable min host score): ";
-    std::cin >> newScore;
-
-    std::string path = "data/account/" + session + ".dat";
-    TimeBank::changeContentByLine(path, 11, newScore);
-
-    std::cout << "Upated successfully.\n";
+    Member currUser = Member::getMember(session);
+    currUser.setRequiredHostScore();
 }
