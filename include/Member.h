@@ -19,7 +19,7 @@ private:
     std::string address;
     int creditPoints;
     bool isSupporting;
-    std::vector<Member *> blockList;
+    std::vector<Member *> blockedMembers;
 public:
     // Constructor
     Member(std::string username, std::string password,
@@ -77,10 +77,10 @@ public:
     }
     void processRequest(Request& request, bool accept);
     private:
-    void rejectOtherRequests(const std::string& memberUsername);
+    void rejectOtherRequests(const std::string& username);
 
-    void blockMember(const std::string& memberUsername);
-    bool isMemberBlocked(const std::string& memberUsername) const;
+    void blockMember(const std::string& username);
+    bool isMemberBlocked(const std::string& username) const;
 };
 
 #endif  // MEMBER_H

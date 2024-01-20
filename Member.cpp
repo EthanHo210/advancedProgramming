@@ -42,14 +42,17 @@ void Member::clearMember(std::string name)
 bool Member::saveMember(std::string name)
 {
   std::ofstream dataFile;
-  dataFile.open(name, std::ios::in | std::ios::app);
+  std::string path = "data/account/" + session + ".dat";
+  dataFile.open(path, std::ios::in | std::ios::app);
   if (!dataFile.is_open())
   {
     std::cerr << "Fail to create/open file \n";
     return false;
   }
   // Store in the file
-  dataFile.seekp(0, std::ios::end); // set the pointer back to end of file
+    for (const auto& blockedMember : blockedMembers) {
+        dataFile << blockedMember << "\n";
+    }
   dataFile.close();
   return true;
 }
@@ -160,18 +163,29 @@ void Member::processRequest(Request& request, bool accept) {
     }
 }
 
-void Member::rejectOtherRequests(const std::string& memberUsername) {
+void Member::rejectOtherRequests(const std::string& username) {
     for (Request& otherRequest : requestsList) {
-        if (otherRequest.getHost().getUsername() == memberUsername) {
+        if (otherRequest.getHost().getUsername() == username) {
             otherRequest.setRejected();
         }
     }
 }
 
-void Member::blockMember(const std::string& memberUsername) {
-    blockedMembers.push_back(memberUsername);
+void Member::blockMember(const std::string& username) {
+    if (isMemberBlocked(username)) {
+        std::cout << "You have successfully blocked this member." << std::endl;
+        return;
+    }    
+    blockMembers.push_back(new Member(username, ""));
+     saveMember(getUsername());
 }
 
-bool Member::isMemberBlocked(const std::string& memberUsername) const {
-    return std::find(blockedMembers.begin(), blockedMembers.end(), memberUsername) != blockedMembers.end();
+bool Member::isMemberBlocked(const std::string& username) const {
+    return std::find(blockedMembers.begin(), blockedMembers.end(), username) != blockedMembers.end();
 }
+
+/*if (!Member::isMemberBlocked()) {
+        Member::displayInfo();  
+    } else {
+        std::cout << "Access Denied. You have been blocked by this member.\n";
+    } */
