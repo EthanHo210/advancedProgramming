@@ -1,20 +1,18 @@
 #pragma once
 
+#ifndef REQUEST_H
+#define REQUEST_H
 #include "Member.h"
 
-class Request
-{
+
+
+class Request {
+
 private:
-    enum State
-    {
-        Accepted,
-        Rejected,
-        Pending
-    };
-   
+
     Member host;
     Member supporter;
-    State state;
+
 public:
     Request(Member host, Member supporter);
 
@@ -23,4 +21,9 @@ public:
     void setRejected();
 
     void clearRequest();
+
+    Member getHost() const { return host; }
+
+    Member getSupporter() const { return supporter; }
+
 };

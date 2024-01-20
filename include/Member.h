@@ -1,9 +1,12 @@
 #pragma once
 
+#ifndef MEMBER_H
+#define MEMBER_H
 #include "User.h"
 #include <iostream>
 #include <vector>
 #include <string>
+#include "Request.h"
 
 using std::string;
 using std::vector;
@@ -72,4 +75,9 @@ public:
     void rate(Member& member) {
         // Implement rate functionality
     }
+    void processRequest(Request& request, bool accept);
+    private:
+    void rejectOtherRequests(const std::string& memberUsername);
 };
+
+#endif  // REQUEST_H
