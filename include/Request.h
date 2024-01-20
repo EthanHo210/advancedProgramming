@@ -1,23 +1,18 @@
 #pragma once
-#include "Member.h"
+#include <string>
 
-class Request {
+class Request
+{
 private:
-
-    Member host;
-    Member supporter;
+    std::string host;
+    std::string supporter;
 
 public:
-    Request(Member host, Member supporter);
+    Request(std::string host, std::string supporter);
 
     void setAccepted();
 
     void setRejected();
 
     void clearRequest();
-
-    Member getHost() const { return host; }
-
-    Member getSupporter() const { return supporter; }
-
 };

@@ -1,6 +1,7 @@
 #pragma once
 #include "Request.h"
 #include "User.h"
+#include "TimeBank.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -65,6 +66,6 @@ public:
 
     void processRequest(Request &request, bool accept);
     void rejectOtherRequests(const std::string &memberUsername);
-    void blockMember(const std::string &username);
-    bool isMemberBlocked(const std::string &username) const;
+    void blockMember(std::string username);
+    bool isMemberBlocked(std::string username);
 };

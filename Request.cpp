@@ -1,10 +1,9 @@
 #include "include/Request.h"
 
-Request::Request(Member host, Member supporter) : host(host), supporter(supporter)/*, state(Pending)*/{};
+Request::Request(std::string host, std::string supporter) : host(host), supporter(supporter) /*, state(Pending)*/ {};
 
-void Request::setAccepted(){
+void Request::setAccepted()
+{
 }
 
-void Request::setRejected(){
-};
-
+void Request::setRejected(){};

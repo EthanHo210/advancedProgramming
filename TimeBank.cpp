@@ -128,7 +128,7 @@ bool TimeBank::appendContentByLine(std::string path, int lineNumber, std::string
         return false;
     }
     // write to line string
-    lines[lineNumber - 1] += newContent;
+    lines[lineNumber - 1] += (newContent + ";");
     // write new content to line
     std::ofstream outputFile(path);
     if (!outputFile.is_open())

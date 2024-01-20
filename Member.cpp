@@ -166,21 +166,25 @@ void Member::rejectOtherRequests(const std::string& username) {
     // }
 }*/
 
-void Member::blockMember(const std::string& username) {
-    if (isMemberBlocked(username)) {
+void Member::blockMember(std::string username)
+{
+    if (isMemberBlocked(username))
+    {
         std::cout << "You have successfully blocked this member." << std::endl;
         return;
-    }    
-    blockMembers.push_back(new Member(username, ""));
-     saveMember(getUsername());
+    }
+    blockList.push_back(username);
+    std::string path = "data/account/" + this->username + ".dat";
+    TimeBank::appendContentByLine(path, 9, username);
 }
 
-bool Member::isMemberBlocked(const std::string& username) const {
-    return std::find(blockedMembers.begin(), blockedMembers.end(), username) != blockedMembers.end();
+bool Member::isMemberBlocked(std::string username)
+{
+    return std::find(blockList.begin(), blockList.end(), username) != blockList.end();
 }
 
 /*if (!Member::isMemberBlocked()) {
-        Member::displayInfo();  
+        Member::displayInfo();
     } else {
         std::cout << "Access Denied. You have been blocked by this member.\n";
     } */
