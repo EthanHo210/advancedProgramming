@@ -9,6 +9,10 @@
 
 int main(int argc, char const *argv[])
 {
+    TimeBank system;
+
+    system.loadAllData();
+
     std::cout << "EEET2482/COSC2082 ASSIGNMENT\n"
               << "\"TIME BANK\" APPLICATION\n"
               << "Instructor: Mr. Tran Duc Linh\n"
@@ -19,33 +23,14 @@ int main(int argc, char const *argv[])
               << "s3752578, Nguyen Quoc Hung\n"
               << "Welcome to Time Bank:\n";
 
-    std::string session = TimeBank::login();
-    if (session.empty())
+    system.login();
+    if ((system.getSession()).empty())
     {
         return 0;
     }
 
     // Main menu
-    int memberChoice;
-    do
-    {
-
-        std::cout << "\nMain menu:\n"
-                  << "0. Exit\n"
-                  << "1. View Supporters\n"
-                  << "2. Your account\n"
-                  << "Enter your choice: ";
-        std::cin >> memberChoice;
-        switch (memberChoice)
-        {
-        case 0:
-            std::cout << "Exiting.\n";
-            break;
-        default:
-            std::cout << "Invalid choice.\n";
-            break;
-        }
-    } while (memberChoice != 0);
+    system.main_menu();
 
     return 0;
 }

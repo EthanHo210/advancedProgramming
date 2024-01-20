@@ -2,7 +2,7 @@
 #include "include/Guest.h"
 #include <limits>
 
-TimeBank::TimeBank() : initialEntryFee(20){};
+TimeBank::TimeBank() : initialEntryFee(20), allUser({}), session(""){};
 
 void TimeBank::saveAllData()
 {
@@ -12,97 +12,339 @@ void TimeBank::saveAllData()
 
 void TimeBank::loadAllData()
 {
-    // Add code to load data from a file or database
-    std::cout << "Loading all data..." << std::endl;
+    std::fstream dataFile("data/system/TimeBank.dat");
+    std::string temp;
+    while (std::getline(dataFile, temp))
+    {
+        allUser.push_back(temp);
+    }
+
+    for (std::string name : allUser)
+    {
+        std::cout << name;
+    }
 }
 
-std::string TimeBank::login()
+// SHOW THE ENTIRE FILE
+void TimeBank::readFile(std::string path)
+{
+    std::string temp;
+    std::ifstream dataFile;
+    dataFile.open(path, std::ios::in); // read
+    if (!dataFile.is_open())
+    {
+        std::cout << "Fail to create/open file \n";
+    }
+    std::cout << "Reading file: \n";
+    while (getline(dataFile, temp))
+    {
+        std::cout << temp << "\n";
+    }
+    dataFile.close();
+}
+
+// CLEAR ALL THE FILE CONTENT
+void TimeBank::clearFile(std::string path)
+{
+    std::ofstream dataFile;
+    dataFile.open(path, std::ios::out);
+    dataFile << "";
+    dataFile.close();
+}
+
+// WRITE TO FILE
+bool TimeBank::saveFile(std::string path)
+{
+    std::ofstream dataFile;
+    dataFile.open(path, std::ios::in | std::ios::app);
+    if (!dataFile.is_open())
+    {
+        std::cerr << "Fail to create/open file \n";
+        return false;
+    }
+    // Store in the file
+    dataFile.seekp(0, std::ios::end); // set the pointer back to end of file
+    dataFile.close();
+    return true;
+}
+
+// CHANGE FILE CONTENT BY LINE
+bool TimeBank::changeContentByLine(std::string path, int lineNumber, std::string newContent)
+{
+    std::ifstream inputFile(path);
+    if (!inputFile.is_open())
+    {
+        std::cerr << "Error opening file: " << path << std::endl;
+        return false;
+    }
+    std::vector<std::string> lines;
+    std::string line;
+    while (std::getline(inputFile, line))
+    {
+        lines.push_back(line);
+    }
+    inputFile.close();
+    // check if input invalid line
+    if (lineNumber < 0 || lineNumber > lines.size())
+    {
+        std::cerr << "Invalid line number: " << lineNumber << std::endl;
+        return false;
+    }
+    // write to line string
+    lines[lineNumber - 1] = newContent;
+    // write new content to line
+    std::ofstream outputFile(path);
+    if (!outputFile.is_open())
+    {
+        std::cerr << "Error opening file: " << path << std::endl;
+        return false;
+    }
+    for (const auto &l : lines)
+    {
+        outputFile << l << std::endl;
+    }
+    outputFile.close();
+    return true;
+}
+
+// APPEND FILE CONTENT TO LINE
+bool TimeBank::appendContentByLine(std::string path, int lineNumber, std::string newContent)
+{
+    std::ifstream inputFile(path);
+    if (!inputFile.is_open())
+    {
+        std::cerr << "Error opening file: " << path << std::endl;
+        return false;
+    }
+    std::vector<std::string> lines;
+    std::string line;
+    while (std::getline(inputFile, line))
+    {
+        lines.push_back(line);
+    }
+    inputFile.close();
+    // check if input invalid line
+    if (lineNumber < 0 || lineNumber > lines.size())
+    {
+        std::cerr << "Invalid line number: " << lineNumber << std::endl;
+        return false;
+    }
+    // write to line string
+    lines[lineNumber - 1] += newContent;
+    // write new content to line
+    std::ofstream outputFile(path);
+    if (!outputFile.is_open())
+    {
+        std::cerr << "Error opening file: " << path << std::endl;
+        return false;
+    }
+    for (const auto &l : lines)
+    {
+        outputFile << l << std::endl;
+    }
+    outputFile.close();
+    return true;
+}
+
+// CHANGE THE FILE CONTENT IN DESIRE POSITION (MATCHED SEARCH STRING)
+bool TimeBank::changeFileContent(std::string path, std::string search, std::string input, char ch) // string to search and newcontent as input
+{
+    std::vector<std::string> vec_Content;
+    std::string temp;
+    std::string output;
+    int count = 0;
+    int line = 0;
+    search = search + " :";
+    std::ifstream dataFile(path);
+    // dataFile.open(path, std::ios::in); // read
+    if (!dataFile.is_open())
+    {
+        std::cout << "Fail to create/open file \n";
+        return false;
+    }
+    // algorithm to find match string
+    int j;
+    while (getline(dataFile, temp))
+    {
+        // write all file content to vector
+        vec_Content.push_back(temp);
+        // count number of lines
+        count++;
+        int position = temp.find(search);
+        if (position != std::string::npos)
+        {
+            output = temp;
+            line = count;
+        }
+    }
+    dataFile.close();
+    // change the content in the output string
+    int index = 0;
+    index = output.find(ch);
+    if (index != std::string::npos)
+    {
+        output = output.substr(0, index + 1) + input + output.substr(index + input.length() + 1);
+    }
+    vec_Content[line - 1] = output; // write new content to vector
+    // write back to the file position
+    std::ofstream out_dataFile(path);
+    // dataFile.open(path, std::ios::out); // write
+    if (!out_dataFile.is_open())
+    {
+        std::cerr << "Fail to create/open file \n";
+        return false;
+    }
+    // Rewrite the file with modified content
+    for (std::string &vec : vec_Content)
+    {
+        out_dataFile << vec << std::endl;
+    }
+    out_dataFile.close();
+
+    return true;
+}
+
+void TimeBank::login()
 {
     int userType;
-
-    std::cout << "Use the app as: \n1. Guest\n2. Member\n3. Admin\n4. Exit\n"
-              << "Enter your choice: ";
-
-    std::cin >> userType;
     std::string username;
     std::string password;
 
-    switch (userType)
+    while (userType != 0)
     {
-    case 1:
-    {
-        int option;
+        std::cout << "Use the app as:\n0. Exit \n1. Guest\n2. Member\n3. Admin\n"
+                  << "Enter your choice: ";
 
-        while (option != 0)
+        std::cin >> userType;
+
+        switch (userType)
         {
+        case 1:
+        {
+            int option;
 
-            std::cout << "Are you new here?\n"
-                      << "1. Register\n"
-                      << "2. View supporters\n";
-
-            if (!(std::cin >> option))
+            while (option != 0)
             {
-                std::cerr << "Error: Invalid input";
-                std::cin.clear();
-                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            }
 
-            switch (option)
-            {
-            case 1:
-                while (true)
+                std::cout << "Are you new here?\n"
+                          << "0. Return\n"
+                          << "1. Register\n"
+                          << "2. View supporters\n";
+
+                if (!(std::cin >> option))
                 {
-                    std::cout << "-- Register as member --\n"
-                              << "Username: ";
-                    std::cin >> username;
-
-                    std::cout << "Password: ";
-                    std::cin >> password;
-                    try
-                    {
-                        Guest newGuest(username, password);
-                        newGuest.displayInfo();
-                        break;
-                    }
-                    catch (const std::runtime_error &e)
-                    {
-                        std::cerr << "Error: " << e.what() << std::endl;
-                    }
+                    std::cerr << "Error: Invalid input";
+                    std::cin.clear();
+                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                 }
-                break;
-            case 2:
-                return "guest";
-                break;
-            default:
-                std::cerr << "Error: Invalid input\n";
-                break;
+
+                switch (option)
+                {
+                case 1:
+                    while (true)
+                    {
+                        std::cout << "--- Register as member ---\n"
+                                  << "Username: ";
+                        std::cin >> username;
+                        if (username != "guest" && username != "admin")
+                        {
+                            std::cout << "Password: ";
+                            std::cin >> password;
+                            try
+                            {
+                                Member newMember(username, password);
+                                break;
+                            }
+                            catch (const std::runtime_error &e)
+                            {
+                                std::cerr << "Error: " << e.what() << std::endl;
+                            }
+                        }
+                        else
+                        {
+                            std::cout << "This name cannot be used.";
+                        }
+                    }
+                    option = 0;
+                    userType = 0;
+                    break;
+                case 2:
+                    username = "guest";
+                    option = 0;
+                    userType = 0;
+                    break;
+                default:
+                    std::cerr << "Error: Invalid input\n";
+                    break;
+                }
             }
+
+            break;
+        }
+        case 2:
+        {
+            std::cout << "Logging in as a member.\n"
+                      << "Enter username: ";
+            std::cin >> username;
+            std::cout << "Enter password: ";
+            std::cin >> password;
+
+            break;
         }
 
-        return username;
+        case 3:
+        {
+            std::cout << "Logging in as admin.\n";
+            username = "admin";
+            std::cout << "Enter password: ";
+            std::cin >> password;
+            break;
+        }
+        case 0:
+        {
+            std::cout << "Exiting...";
+            break;
+        }
+
+        default:
+            std::cout << "Invalid choice.\n";
+            break;
+        }
     }
-    case 2:
+
+    session = username;
+}
+
+// Main menu
+void TimeBank::main_menu()
+{
+    int memberChoice;
+    do
     {
-        std::cout << "Logging in as a member.\n"
-                  << "Enter username: ";
-        std::cin >> username;
-        std::cout << "Enter password: ";
-        std::cin >> password;
 
-        return username;
-    }
+        std::cout << "\nMain menu:\n"
+                  << "0. Exit\n"
+                  << "1. View Supporters\n"
+                  << "2. Your account\n"
+                  << "Enter your choice: ";
+        std::cin >> memberChoice;
+        switch (memberChoice)
+        {
+        case 0:
+            std::cout << "Exiting.\n";
+            break;
+        case 2:
 
-    case 3:
-    {
-        std::cout << "Logging in as admin.\n";
-        username = "Admin";
-        std::cout << "Enter password: ";
-        std::cin >> password;
-        return "Admin";
-    }
+            break;
+        default:
+            std::cout << "Invalid choice.\n";
+            break;
+        }
+    } while (memberChoice != 0);
+};
 
-    default:
-        std::cout << "Invalid choice.\n";
-        break;
-    }
+void TimeBank::view_account()
+{
+    std::string path = "data/account/" + session + ".dat";
+    std::ifstream userData(path);
 }

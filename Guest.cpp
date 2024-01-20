@@ -21,6 +21,19 @@ Guest::Guest(std::string username, std::string password) : User(username, passwo
         dataFile << password << "\n";
         std::cout << "Account registered successfully.\n";
 
+        dataFile.open("data/account/TimeBank.dat", std::ios::out);
+
+        if (dataFile.is_open())
+        {
+            dataFile << username << "\n";
+            std::cout << "Username added to database.\n";
+        }
+        else
+        {
+            throw std::runtime_error("System file is missing!\n");
+        }
+
+        checkFile.close();
         dataFile.close();
     }
 }
