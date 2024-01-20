@@ -25,7 +25,7 @@ public:
     // Implementation of the displayInfo function
     void displayInfo() override
     {
-        std::cout << "--Member Info--" << std::endl;
+        std::cout << "-- Member Info --" << std::endl;
         std::cout << "Username: " << getUsername() << std::endl;
         std::cout << "Password: " << getPassword() << std::endl;
         std::cout << "Full Name: " << fullName << std::endl;
@@ -33,6 +33,15 @@ public:
         std::cout << "Email: " << email << std::endl;
         std::cout << "Address: " << address << std::endl;
     }
+
+    // SHOW THE ENTIRE MEMBERS FILE
+    static void showAllInfo(std::string name);
+
+    // CLEAR ALL THE FILE CONTENT
+    static void clearMember(std::string name);
+
+    // WRITE TO FILE
+    static bool saveMember(std::string name);
 
     // Other member functions for Member class
     void browse(std::string& criteria) {
