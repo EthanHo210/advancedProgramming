@@ -31,16 +31,7 @@ public:
     static void registerMember(std::string username, std::string password);
 
     // Implementation of the displayInfo function
-    void displayInfo() override
-    {
-        std::cout << "-- Member Info --" << std::endl;
-        std::cout << "Username: " << getUsername() << std::endl;
-        std::cout << "Password: " << getPassword() << std::endl;
-        std::cout << "Full Name: " << fullName << std::endl;
-        std::cout << "Phone Number: " << phoneNumber << std::endl;
-        std::cout << "Email: " << email << std::endl;
-        std::cout << "Address: " << address << std::endl;
-    }
+    void displayInfo() override;
     // Other member functions for Member class
     void browse(std::string &criteria)
     {
@@ -66,4 +57,6 @@ public:
     {
         // Implement rate functionality
     }
+
+    static bool isValidAddress(std::string address);
 };

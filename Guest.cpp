@@ -52,10 +52,3 @@ std::string Guest::getPassWord()
 {
     return password;
 };
-
-Member Guest::registerAsMember()
-{
-    Member newMember(username, password);
-
-    return newMember;
-}

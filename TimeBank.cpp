@@ -206,7 +206,7 @@ bool TimeBank::changeFileContent(std::string path, std::string search, std::stri
 
 void TimeBank::login()
 {
-    int userType;
+    int userType = 1;
     std::string username;
     std::string password;
 
@@ -229,7 +229,8 @@ void TimeBank::login()
                 std::cout << "Are you new here?\n"
                           << "0. Return\n"
                           << "1. Register\n"
-                          << "2. View supporters\n";
+                          << "2. Continue as guest\n"
+                          << "Your option: ";
 
                 if (!(std::cin >> option))
                 {
@@ -245,14 +246,17 @@ void TimeBank::login()
                     {
                         std::cout << "--- Register as member ---\n"
                                   << "Username: ";
-                        std::cin >> username;
+                        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                        std::getline(std::cin, username);
                         if (username != "guest" && username != "admin")
                         {
                             std::cout << "Password: ";
                             std::cin >> password;
                             try
                             {
-                                Member newMember(username, password);
+                                Member::registerMember(username, password);
+                                std::string path = "data/account/" + username + ".dat";
+                                TimeBank::readFile(path);
                                 break;
                             }
                             catch (const std::runtime_error &e)
@@ -285,7 +289,7 @@ void TimeBank::login()
         {
             std::cout << "Logging in as a member.\n"
                       << "Enter username: ";
-            std::cin >> username;
+            std::getline(std::cin, username);
             std::cout << "Enter password: ";
             std::cin >> password;
 
@@ -298,11 +302,21 @@ void TimeBank::login()
             username = "admin";
             std::cout << "Enter password: ";
             std::cin >> password;
+            if (password != "ADMINISTRATOR")
+            {
+                std::cerr << "Invalid password";
+            }
+            else
+            {
+                userType = 0;
+            }
+
             break;
         }
         case 0:
         {
             std::cout << "Exiting...";
+            username = "";
             break;
         }
 
@@ -319,28 +333,80 @@ void TimeBank::login()
 void TimeBank::main_menu()
 {
     int memberChoice;
-    do
+
+    if (session == "guest")
     {
-
-        std::cout << "\nMain menu:\n"
-                  << "0. Exit\n"
-                  << "1. View Supporters\n"
-                  << "2. Your account\n"
-                  << "Enter your choice: ";
-        std::cin >> memberChoice;
-        switch (memberChoice)
+        do
         {
-        case 0:
-            std::cout << "Exiting.\n";
-            break;
-        case 2:
+            std::cout << "\nMain menu:\n"
+                      << "0. Exit\n"
+                      << "1. View Supporters\n"
+                      << "Enter your choice: ";
+            std::cin >> memberChoice;
+            switch (memberChoice)
+            {
+            case 0:
+                std::cout << "Exiting...\n";
+                break;
+            case 1:
 
-            break;
-        default:
-            std::cout << "Invalid choice.\n";
-            break;
-        }
-    } while (memberChoice != 0);
+                break;
+            default:
+                std::cout << "Invalid choice.\n";
+                break;
+            }
+        } while (memberChoice != 0);
+    }
+    else if (session == "admin")
+    {
+        do
+        {
+            std::cout << "\nMain menu:\n"
+                      << "0. Exit\n"
+                      << "1. Manage account\n"
+                      << "Enter your choice: ";
+            std::cin >> memberChoice;
+            switch (memberChoice)
+            {
+            case 0:
+                std::cout << "Exiting.\n";
+                break;
+            case 1:
+
+                break;
+            default:
+                std::cout << "Invalid choice.\n";
+                break;
+            }
+        } while (memberChoice != 0);
+    }
+    else
+    {
+        do
+        {
+            std::cout << "\nMain menu:\n"
+                      << "0. Exit\n"
+                      << "1. View Supporters\n"
+                      << "2. Your account\n"
+                      << "Enter your choice: ";
+            std::cin >> memberChoice;
+            switch (memberChoice)
+            {
+            case 0:
+                std::cout << "Exiting.\n";
+                break;
+            case 1:
+
+                break;
+            case 2:
+
+                break;
+            default:
+                std::cout << "Invalid choice.\n";
+                break;
+            }
+        } while (memberChoice != 0);
+    }
 };
 
 void TimeBank::view_account()
