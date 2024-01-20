@@ -21,7 +21,7 @@ int main(int argc, char const *argv[]) {
                  "Enter your choice: ";
 
 int userType;
-    std::cin >> userType;
+std::cin >> userType;
 
 switch (userType) {
     case 1:
