@@ -2,6 +2,12 @@
 
 #include "User.h"
 #include "Member.h"
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <iomanip>
+#include <vector>
+#include <string>
 
 class Guest: public User
 {
@@ -13,4 +19,7 @@ public:
     std::string getUserName();
 
     std::string getPassWord();
+
+private:
+    bool memberIDExists(const std::string& memberId) const;
 };

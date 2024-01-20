@@ -1,18 +1,20 @@
 #pragma once
-
+#include "Member.h"
+#include "User.h"
+#include "Member.h"
 #include <iostream>
+#include <fstream>
+#include <sstream>
+#include <iomanip>
+#include <vector>
+#include <string>
 
 class TimeBank {
 private:
-    int initialEntryFee;
+    static const int initialEntryFee;
 
 public:
-    // Constructor
     TimeBank();
-
-    // Member function to save all data
-    void saveAllData();
-
-    // Member function to load all data
-    void loadAllData();
+    void saveAllData(const std::vector<Member>& members);
+    std::vector<Member> loadAllData();
 };

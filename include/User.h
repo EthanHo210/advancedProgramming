@@ -8,6 +8,7 @@ class User {
 protected:
     std::string username;
     std::string password;
+    std::string ID;
     static std::vector<std::string> nameList;
 public:
     // Constructor
@@ -26,4 +27,6 @@ public:
 
     // Getter for password
     std::string getPassword();
+
+    void User::viewMember(const Member& member);
 };
