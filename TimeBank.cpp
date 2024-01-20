@@ -20,7 +20,7 @@ std::string TimeBank::login()
 {
     int userType;
 
-    std::cout << "Use the app as:  1. Guest -  2. Member  -  3. Admin\n"
+    std::cout << "Use the app as: \n1. Guest\n2. Member\n3. Admin\n4. Exit\n"
               << "Enter your choice: ";
 
     std::cin >> userType;
@@ -62,7 +62,6 @@ std::string TimeBank::login()
                     {
                         Guest newGuest(username, password);
                         newGuest.displayInfo();
-
                         break;
                     }
                     catch (const std::runtime_error &e)
@@ -95,16 +94,15 @@ std::string TimeBank::login()
 
     case 3:
     {
-        std::cout << "Logging in as admin.\n"
-                  << "Enter username: ";
-        std::cin >> username;
+        std::cout << "Logging in as admin.\n";
+        username = "Admin";
         std::cout << "Enter password: ";
         std::cin >> password;
-        return username;
+        return "Admin";
     }
 
     default:
-        std::cout << "Invalid choice. Returning to main menu.\n";
-        return "";
+        std::cout << "Invalid choice.\n";
+        break;
     }
 }

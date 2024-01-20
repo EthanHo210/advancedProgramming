@@ -9,9 +9,6 @@
 
 int main(int argc, char const *argv[])
 {
-
-    std::string session = "";
-
     std::cout << "EEET2482/COSC2082 ASSIGNMENT\n"
               << "\"TIME BANK\" APPLICATION\n"
               << "Instructor: Mr. Tran Duc Linh\n"
@@ -22,26 +19,28 @@ int main(int argc, char const *argv[])
               << "s3752578, Nguyen Quoc Hung\n"
               << "Welcome to Time Bank:\n";
 
-    while (session.empty())
+    std::string session = TimeBank::login();
+    if (session.empty())
     {
-        session = TimeBank::login();
+        return 0;
     }
 
+    // Main menu
     int memberChoice;
-
     do
     {
+
         std::cout << "\nMain menu:\n"
                   << "0. Exit\n"
-                  << "1. View Information\n"
-                  << "2. ...\n"
+                  << "1. View Supporters\n"
+                  << "2. Your account\n"
                   << "Enter your choice: ";
         std::cin >> memberChoice;
         switch (memberChoice)
         {
         case 0:
             std::cout << "Exiting.\n";
-            return 0;
+            break;
         default:
             std::cout << "Invalid choice.\n";
             break;

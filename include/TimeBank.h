@@ -18,4 +18,5 @@ public:
     void loadAllData();
 
     static std::string login();
+
 };
