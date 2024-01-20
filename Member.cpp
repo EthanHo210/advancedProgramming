@@ -23,22 +23,74 @@ Member::Member(std::string &username, std::string &password)
     : User(username, password), fullName(""), phoneNumber(""),
       email(""), address(""), isSupporting(false) {}
 
-void Member::displayInformation() const {
+#include <fstream>
+#include <iostream>
+#include <sstream>
+#include <vector>
+
+void Member::View() const {
+    std::string filename = getUsername() + ".txt"; // Assuming username is unique and used as the filename
+    std::ifstream inputFile(filename);
+
+    if (!inputFile.is_open()) {
+        std::cout << "User does not exist. Please try again.\n";
+        return;
+    }
+
     std::cout << "Member Information:\n";
-    std::cout << "ID: " << getID() << "\n";
-    std::cout << "Username: " << getUsername() << "\n";
-    std::cout << "Password: " << getPassword() << "\n";
-    std::cout << "Full Name: " << getFullName() << "\n";
-    std::cout << "Phone Number: " << getPhoneNumber() << "\n";
-    std::cout << "Email: " << getEmail() << "\n";
-    std::cout << "Address: " << getAddress() << "\n";
-    std::cout << "Credit Points: " << getCreditPoints() << "\n";
+
+    std::string line;
+    if (std::getline(inputFile, line)) {
+        std::istringstream iss(line);
+        std::vector<std::string> fields;
+
+        // Split the line into fields
+        while (std::getline(iss, line, ',')) {
+            fields.push_back(line);
+        }
+
+        // Ensure there are at least 8 fields
+        if (fields.size() >= 8) {
+            std::cout << "Username: " << fields[0] << "\n";
+            std::cout << "Full Name: " << fields[2] << "\n";
+            std::cout << "Phone Number: " << fields[3] << "\n";
+            std::cout << "Email: " << fields[4] << "\n";
+            std::cout << "Address: " << fields[5] << "\n";
+            std::cout << "Is Supervisor: " << (fields[7] == "1" ? "Yes" : "No") << "\n";
+        }
+    }
+
+    inputFile.close();
 }
+
 
 void Member::book(Member& supporter) {
     // Implementation for booking a supporter
     std::cout << "Booking supporter: " << supporter.getUsername() << std::endl;
     // Add your logic here
+}
+
+void Member::browse(const std::string& city) {
+    // Implementation for browsing suitable supporters in the specified city
+
+    // Iterate through supporters and filter based on criteria
+    for (const Member& supporter : supportersList) {
+        // Check if supporter is in the specified city
+        if (supporter.getAddress() == city) {
+            // Check if member has enough credit points to book the supporter
+            if (creditPoints >= supporter.getConsumingPoints()) {
+                // Check if supporter's rating score is acceptable (modify as needed)
+                if (supporter.getRatingScore() >= minRatingScore) {
+                    // Display supporter information
+                    std::cout << "Supporter ID: " << supporter.getID() << "\n";
+                    std::cout << "Username: " << supporter.getUsername() << "\n";
+                    std::cout << "Rating Score: " << supporter.getRatingScore() << "\n";
+                    // Add more supporter information if needed
+                    std::cout << "-----------------------------\n";
+                }
+            }
+        }
+    }
 }
 
 void Member::enableSupport() {

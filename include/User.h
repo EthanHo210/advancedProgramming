@@ -1,5 +1,5 @@
-#pragma once
-
+#ifndef USER_H
+#define USER_H
 #include <string> 
 #include <vector>
 
@@ -8,7 +8,6 @@ class User {
 protected:
     std::string username;
     std::string password;
-    std::string ID;
     static std::vector<std::string> nameList;
 public:
     // Constructor
@@ -23,10 +22,12 @@ public:
     std::string getId();
 
     // Getter for username
-    std::string getUsername();
+    std::string getUsername() const;
 
     // Getter for password
-    std::string getPassword();
+    std::string getPassword() const;
 
     void User::viewMember(const Member& member);
 };
+
+#endif // USER_H
