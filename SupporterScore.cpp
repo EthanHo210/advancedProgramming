@@ -29,7 +29,7 @@ SupporterScore SupporterScore::getScores(const std::string path)
 
 void SupporterScore::giveRating(std::string user)
 {
-    std::string path = "/data/score/supporter" + user + ".dat";
+    std::string path = "/data/score/supporter/" + user + ".dat";
     std::cout << "Rating your Supporter.\n";
     Score::giveRating(path);
 }

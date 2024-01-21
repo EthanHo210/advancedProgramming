@@ -29,7 +29,7 @@ HostScore HostScore::getScores(const std::string path)
 
 void HostScore::giveRating(std::string user)
 {
-    std::string path = "/data/score/host" + user + ".dat";
+    std::string path = "/data/score/host/" + user + ".dat";
     std::cout << "Rating your Host.\n";
     Score::giveRating(path);
 }

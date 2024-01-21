@@ -29,7 +29,7 @@ SkillScore SkillScore::getScores(const std::string path)
 
 void SkillScore::giveRating(std::string user)
 {
-    std::string path = "/data/score/skill" + user + ".dat";
+    std::string path = "/data/score/skill/" + user + ".dat";
     std::cout << "Rating your Skill.\n";
     Score::giveRating(path);
 }
