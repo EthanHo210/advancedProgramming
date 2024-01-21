@@ -28,10 +28,13 @@ int main(int argc, char const *argv[])
 
     system.login();
 
-    std::string sessionUser = system.getSession();
+    if (!system.getSession().empty())
+    {
+        std::string sessionUser = system.getSession();
 
-    // Main menu
-    system.main_menu();
+        // Main menu
+        system.main_menu();
+    }
 
     return 0;
 }
