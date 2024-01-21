@@ -475,6 +475,7 @@ bool isUsernameExist(std::string username)
 void TimeBank::main_menu()
 {
     int memberChoice;
+    Member currUser = Member::getMember(session);
 
     if (session == "guest")
     {
@@ -518,7 +519,7 @@ void TimeBank::main_menu()
             {
                 std::string username;
                 std::cout << "Enter username to change password: ";
-                std::cin.ignore();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                 std::getline(std::cin, username);
 
                 admin.resetPassword(username);
@@ -538,6 +539,7 @@ void TimeBank::main_menu()
                       << "0. Exit\n"
                       << "1. View Supporters\n"
                       << "2. Your account\n"
+                      << "3. Book user"
                       << "Enter your choice: ";
             std::cin >> memberChoice;
             switch (memberChoice)
@@ -551,6 +553,33 @@ void TimeBank::main_menu()
             case 2:
                 TimeBank::manage_account();
                 break;
+            case 3:
+            {
+                std::string name;
+                std::string skill;
+                std::string startTime;
+                std::string endTime;
+
+                std::cout << "BOOKING\n";
+                std::cout << "Enter username you want to book: ";
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                std::getline(std::cin, name);
+
+                std::cout << "Enter their skill: ";
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                std::getline(std::cin, skill);
+
+                std::cout << "Enter start-time: ";
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                std::getline(std::cin, startTime);
+
+                std::cout << "Enter end-time: ";
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                std::getline(std::cin, endTime);
+
+                currUser.book(skill, startTime, endTime, name);
+                break;
+            }
             default:
                 std::cout << "Invalid choice.\n";
                 break;

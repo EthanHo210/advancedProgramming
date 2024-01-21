@@ -36,7 +36,8 @@ public:
     Member();
     Member(std::string username, std::string password,
            std::string fullName, std::string phoneNumber, std::string email,
-           std::string address, int creditPoints, bool isSupporting, vector<std::string> blockList, std::string skill, double requiredHostScore);
+           std::string address, int creditPoints, bool isSupporting, vector<std::string> blockList,
+           std::string skill, double requiredHostScore);
 
     // Register member
     static void registerMember(std::string username, std::string password);
