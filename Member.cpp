@@ -147,6 +147,8 @@ void Member::registerMember(std::string username, std::string password)
   {
     std::ofstream scoreFile(path, std::ios::out);
     scoreFile << "";
+
+    scoreFile.close();
   }
 
   std::cout << "Account registered successfully.\n";
