@@ -137,7 +137,11 @@ void Member::registerMember(std::string username, std::string password)
   checkFile.close();
   dataFile.close();
 
-  std::vector<std::string> paths = {"data/score/host/" + username + ".dat", "data/score/skill/" + username + ".dat", "data/score/supporter/" + username + ".dat"};
+  std::vector<std::string> paths = {"data/score/host/" + username + ".dat",
+                                    "data/score/skill/" + username + ".dat",
+                                    "data/score/supporter/" + username + ".dat",
+                                    "data/current/" + username + ".dat",
+                                    "data/pending/" + username + ".dat"};
 
   for (std::string path : paths)
   {

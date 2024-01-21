@@ -539,7 +539,7 @@ void TimeBank::main_menu()
                       << "0. Exit\n"
                       << "1. View Supporters\n"
                       << "2. Your account\n"
-                      << "3. Book user"
+                      << "3. Book user\n"
                       << "Enter your choice: ";
             std::cin >> memberChoice;
             switch (memberChoice)
@@ -566,15 +566,12 @@ void TimeBank::main_menu()
                 std::getline(std::cin, name);
 
                 std::cout << "Enter their skill: ";
-                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                 std::getline(std::cin, skill);
 
                 std::cout << "Enter start-time: ";
-                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                 std::getline(std::cin, startTime);
 
                 std::cout << "Enter end-time: ";
-                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                 std::getline(std::cin, endTime);
 
                 currUser.book(skill, startTime, endTime, name);
