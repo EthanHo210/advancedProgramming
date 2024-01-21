@@ -4,6 +4,7 @@
 #include "include/Request.h"
 #include "include/TimeBank.h"
 #include "include/User.h"
+#include "include/Time.h"
 #include "include/Score.h"
 #include <cstdlib>
 

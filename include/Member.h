@@ -1,4 +1,5 @@
 #pragma once
+#include "Time.h"
 #include "Request.h"
 #include "User.h"
 #include "TimeBank.h"
@@ -37,8 +38,11 @@ public:
     static void registerMember(std::string username, std::string password);
     static bool verifyLogin(std::string username, std::string password);
 
+    // Get skill pph
+    int getSkillPoints();
+
     // Implementation of the displayInfo function
-    std::string getUsername() const { return username; }
+    std::string getUsername();
     std::string getPassword() const { return password; }
     std::string getFullName() const { return fullName; }
     std::string getPhoneNumber() const { return phoneNumber; }
@@ -55,25 +59,35 @@ public:
     void setAddress(const std::string &newAddress) { address = newAddress; }
     void setCreditPoints(int newCreditPoints) { creditPoints = newCreditPoints; }
 
-    void browse(const std::string &searchString);
+    void searchSupporter(int city, std::string name);
+    void static viewAllSupporter(int city, std::string name);
+
     void book(Member &supporter);
+
     void enableSupport();
+    void disableSupport();
+
     void endSession();
     void rate(const Member &ratedMember);
 
     void displayAllInfo();
     void displayInfo();
     static bool isValidAddress(std::string address);
-    friend class TimeBank;
 
-    void processRequest(Request &request, bool accept);
+    // void processRequest(Request &request, bool accept);
     void rejectOtherRequests(const std::string &memberUsername);
     void blockMember(std::string username);
     bool isMemberBlocked(std::string username);
 
-    static void browseAllSupporters(std::string city);
+    static std::vector<std::string> getAllMembers();
     static Member getMember(std::string username);
     static std::vector<std::string> extractBlockList(std::string data);
 
     void setRequiredHostScore();
+
+    void book(string skill, string start_Time, string end_Time, string bookedPerson);
+
+    double getRequiredHostScore();
+
+    friend class TimeBank;
 };
