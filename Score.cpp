@@ -52,12 +52,6 @@ Score Score::getScores(const std::string path)
 
     std::string line;
 
-    // ONLY SKILL SCORE
-    // for (int i = 0; i < 2; i++)
-    // {
-    //     std::getline(file, line);
-    // }
-
     while (std::getline(file, line))
     {
         ratings.push_back(line);
