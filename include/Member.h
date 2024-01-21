@@ -3,6 +3,7 @@
 #include "Request.h"
 #include "User.h"
 #include "TimeBank.h"
+#include "SupporterScore.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -90,6 +91,10 @@ public:
     void book(string skill, string start_Time, string end_Time, string bookedPerson);
 
     double getRequiredHostScore();
+
+    void rateSupporter(std::string user);
+    void rateHost(std::string user);
+    void rateSkill(std::string user);
 
     friend class TimeBank;
 };

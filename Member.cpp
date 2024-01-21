@@ -1,12 +1,9 @@
 #include "include/Member.h"
+#include "include/SupporterScore.h"
 #include "include/Time.h"
 #include "include/Request.h"
 #include <vector>
 #include <fstream>
-
-using std::cin;
-using std::cout;
-using std::string;
 
 Member::Member() : User() {}
 Member::Member(std::string username, std::string password,
@@ -281,7 +278,7 @@ bool Member::verifyLogin(std::string username, std::string password)
   return false;
 }
 
-/*void Member::processRequest(Request& request, bool accept) {
+void Member::processRequest(Request& request, bool accept) {
     if (accept) {
         request.setAccepted();
         rejectOtherRequests(request.getHost().getUsername());
@@ -291,12 +288,12 @@ bool Member::verifyLogin(std::string username, std::string password)
 }
 
 void Member::rejectOtherRequests(const std::string& username) {
-    // for (Request& otherRequest : requestsList) {
-    //     if (otherRequest.getHost().getUsername() == username) {
-    //         otherRequest.setRejected();
-    //     }
-    // }
-}*/
+    for (Request& otherRequest : requestsList) {
+         if (otherRequest.getHost().getUsername() == username) {
+            otherRequest.setRejected();
+        }
+    }
+}
 
 void Member::blockMember(std::string username)
 {
@@ -429,4 +426,16 @@ void Member::setRequiredHostScore()
   changeContentByLine(path, 11, newData);
 
   std::cout << "Upated successfully.\n";
+}
+
+void Member::rateSupporter(std::string user) {
+    SupporterScore::giveRating(user);
+}
+
+void Member::rateHost(std::string user) {
+    HostScore::giveRating(user);
+}
+
+void Member::rateSkill(std::string user) {
+    SkillScore::giveRating(user);
 }
