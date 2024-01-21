@@ -563,6 +563,7 @@ void TimeBank::manage_account()
 {
     std::string path = "data/account/" + session + ".dat";
     std::ifstream userData(path);
+    Member currUser = Member::getMember(session);
 
     int option;
     while (option != 0)
@@ -588,13 +589,13 @@ void TimeBank::manage_account()
             break;
         case 2:
         {
-            Member currUser = Member::getMember(session);
             if (currUser.supporting())
             {
                 int option;
 
                 std::cout << "You are supporting. Do you want to stop?\n0. Stop supporting\n1. Continue supporting and return to main menu.";
                 std::cin >> option;
+
                 switch (option)
                 {
                 case 0:
@@ -602,21 +603,37 @@ void TimeBank::manage_account()
                     break;
                 case 1:
                     break;
-
                 default:
+                    std::cout << "Invalid input.";
                     break;
                 }
             }
+            else
+            {
+                int option;
+                std::cout << "You are not supporting. Enable now?\n0. Start supporting\n1. Return to main menu.";
+                std::cin >> option;
 
-            currUser.enableSupport();
-        }
-        break;
+                switch (option)
+                {
+                case 0:
+                    currUser.enableSupport();
+                    break;
+                case 1:
+                    break;
+                default:
+                    std::cout << "Invalid input.";
+                    break;
+                }
+            }
+            break;
         case 5:
             TimeBank::set_min_host_score();
             break;
         default:
             std::cerr << "Invalid input.";
             break;
+        }
         }
     }
 }
