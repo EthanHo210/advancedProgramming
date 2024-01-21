@@ -30,6 +30,7 @@ private:
 
 public:
     // Constructor
+    Member();
     Member(std::string username, std::string password,
            std::string fullName, std::string phoneNumber, std::string email,
            std::string address, int creditPoints, bool isSupporting, vector<std::string> blockList, std::string skill, double requiredHostScore);
@@ -49,6 +50,7 @@ public:
     std::string getEmail() const { return email; }
     std::string getAddress() const { return address; }
     int getCreditPoints() const { return creditPoints; }
+    bool supporting();
 
     // Public setter functions
     void setUsername(const std::string &newUsername) { username = newUsername; }

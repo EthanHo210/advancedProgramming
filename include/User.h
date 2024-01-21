@@ -12,6 +12,7 @@ protected:
 
 public:
     // Constructor
+    User();
     User(std::string username, std::string password);
 
     // Getter for username

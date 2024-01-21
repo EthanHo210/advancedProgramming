@@ -13,6 +13,7 @@
 
 std::vector<std::string> User::nameList;
 
+User::User() {}
 User::User(std::string username, std::string password)
     : username(username), password(password)
 {

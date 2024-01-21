@@ -8,6 +8,7 @@ using std::cin;
 using std::cout;
 using std::string;
 
+Member::Member() : User() {}
 Member::Member(std::string username, std::string password,
                std::string fullName = "", std::string phoneNumber = "", std::string email = "",
                std::string address = "", int creditPoints = 20, bool isSupporting = false, vector<std::string> blockList = {}, std::string skill = "", double requiredHostScore = 0)
@@ -70,6 +71,7 @@ void Member::registerMember(std::string username, std::string password)
   std::string email;
   std::string address;
   std::string skill;
+  int pph;
 
   // Check if the username exists in database
   std::string path = "data/account/" + username + ".dat";
@@ -110,12 +112,16 @@ void Member::registerMember(std::string username, std::string password)
 
     std::cout << "Your skill: ";
     std::getline(std::cin, skill);
+
+    std::cout << "Points per hour for your skill: ";
+    std::cin >> pph;
   }
 
   Member newMember(username, password, fullName, phoneNumber, email, address, 20, false, {}, skill, 0);
 
   // Store data in the files with the username
   std::ofstream dataFile(path, std::ios::out);
+  std::ofstream skillFile("data/skill/" + username + ".dat", std::ios::out);
 
   dataFile << username << "\n"
            << password << "\n"
@@ -128,6 +134,20 @@ void Member::registerMember(std::string username, std::string password)
            << "\n"
            << skill << "\n"
            << 0 << "\n";
+
+  skillFile << skill << "\n"
+            << pph << "\n";
+
+  checkFile.close();
+  dataFile.close();
+
+  std::vector<std::string> paths = {"data/score/host/" + username + ".dat", "data/score/skill/" + username + ".dat", "data/score/supporter/" + username + ".dat"};
+
+  for (std::string path : paths)
+  {
+    std::ofstream scoreFile(path, std::ios::out);
+    scoreFile << "";
+  }
 
   std::cout << "Account registered successfully.\n";
 
@@ -143,8 +163,6 @@ void Member::registerMember(std::string username, std::string password)
     throw std::runtime_error("System file is missing!\n");
   }
 
-  checkFile.close();
-  dataFile.close();
   systemFile.close();
 }
 
@@ -201,6 +219,7 @@ std::vector<std::string> Member::extractBlockList(std::string data)
 
 void Member::displayInfo()
 {
+  std::cout << "\n-- MEMBER INFORMATION --\n";
   std::cout << "Username: " << username << "\n";
   std::cout << "Full Name: " << fullName << "\n";
   std::cout << "Phone Number: " << phoneNumber << "\n";
@@ -320,11 +339,16 @@ double Member::getRequiredHostScore()
   return requiredHostScore;
 }
 
+bool Member::supporting()
+{
+  return isSupporting;
+}
+
 void Member::searchSupporter(int city, std::string name)
 { // 1 -> all
   // 2 -> ha noi
   // 3 -> sai gon
-  std::string keyCity = (city == 2 ? "ha noi" : "saigon");
+  std::string keyCity = (city == 2 ? "ha noi" : "sai gon");
 
   double hostScore = std::stod(showContentAtLine("data/score/host/" + username + ".dat", 1));
 
@@ -333,23 +357,16 @@ void Member::searchSupporter(int city, std::string name)
 
   if (city != 1)
   {
-    searchKey = searchContentAtLine(path, 5, keyCity);
+    searchKey = searchContentAtLine(path, 6, keyCity);
   }
 
   Member searchUser = Member::getMember(name);
-  int skillPoint = std::stoi(showContentAtLine("data/skill/" + searchUser.getUsername() + ".dat", 2));
+  // int skillPoint = std::stoi(showContentAtLine("data/skill/" + searchUser.getUsername() + ".dat", 2));
 
-  if (hostScore < searchUser.getRequiredHostScore())
-  {
-    searchKey = false;
-    std::cerr << "You do not have high enough Host Score.\n";
-  }
-
-  if (creditPoints < skillPoint)
-  {
-    searchKey = false;
-    std::cerr << "You do not have enough credits.\n";
-  }
+  // if (hostScore < searchUser.getRequiredHostScore() || creditPoints < skillPoint || !searchUser.supporting())
+  // {
+  //   searchKey = false;
+  // }
 
   if (searchKey)
   {
@@ -359,16 +376,23 @@ void Member::searchSupporter(int city, std::string name)
 
 void Member::viewAllSupporter(int city, std::string name)
 {
-  std::string keyCity = (city == 2 ? "ha noi" : "saigon");
+  std::string keyCity = (city == 2 ? "ha noi" : "sai gon");
 
   bool searchKey = true;
   std::string path = "data/account/" + name + ".dat";
 
   if (city != 1)
   {
-    searchKey = searchContentAtLine(path, 5, keyCity);
+    searchKey = searchContentAtLine(path, 6, keyCity);
   }
+
   Member searchUser = Member::getMember(name);
+
+  if (!searchUser.supporting())
+  {
+    searchKey = false;
+  }
+
   if (searchKey)
   {
     searchUser.displayInfo();

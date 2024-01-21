@@ -33,7 +33,7 @@ void logFile(std::string path)
     {
         std::cout << "Fail to create/open file \n";
     }
-    std::cout << "Reading file: \n";
+
     while (getline(dataFile, temp))
     {
         std::cout << temp << "\n";
@@ -53,7 +53,7 @@ std::vector<std::string> readFile(std::string path)
     {
         std::cout << "Fail to create/open file \n";
     }
-    std::cout << "Reading file: \n";
+
     while (getline(dataFile, temp))
     {
         file.push_back(temp);
@@ -494,6 +494,7 @@ void TimeBank::main_menu()
     }
     else if (session == "admin")
     {
+        Admin admin;
         do
         {
             std::cout << "\nMain menu:\n"
@@ -507,8 +508,15 @@ void TimeBank::main_menu()
                 std::cout << "Exiting.\n";
                 break;
             case 1:
+            {
+                std::string username;
+                std::cout << "Enter username to change password: ";
+                std::cin.ignore();
+                std::getline(std::cin, username);
 
-                break;
+                admin.resetPassword(username);
+            }
+            break;
             default:
                 std::cout << "Invalid choice.\n";
                 break;
@@ -598,7 +606,13 @@ void TimeBank::search_supporter()
 {
     int option;
     std::vector<std::string> userList = Member::getAllMembers();
-    Member currUser = Member::getMember(session);
+
+    Member currUser;
+
+    if (session != "guest")
+    {
+        currUser = Member::getMember(session);
+    }
 
     while (option != 0)
     {

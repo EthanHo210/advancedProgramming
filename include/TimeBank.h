@@ -2,6 +2,7 @@
 #include "Member.h"
 #include "User.h"
 #include "Member.h"
+#include "Admin.h"
 #include <iostream>
 #include <vector>
 #include <fstream>
