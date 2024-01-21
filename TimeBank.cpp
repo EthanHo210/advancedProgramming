@@ -574,6 +574,7 @@ void TimeBank::manage_account()
                   << "3. Check your on-going requests\n"
                   << "4. Check pending requests from other users\n"
                   << "5. Set minimum host score\n"
+                  << "6. Block user\n"
                   << "Enter your choice: ";
 
         std::cin >> option;
@@ -588,6 +589,7 @@ void TimeBank::manage_account()
         case 2:
         {
             Member currUser = Member::getMember(session);
+            currUser.enableSupport();
         }
         break;
         case 5:
