@@ -16,6 +16,8 @@ Member::Member(std::string username, std::string password,
 {
 }
 
+std::string Member::getUsername() { return username; }
+
 void Member::book(string skill, string start_Time, string end_Time, string bookedPerson)
 {
   // Implement book functionality
@@ -122,7 +124,7 @@ void Member::registerMember(std::string username, std::string password)
            << email << "\n"
            << address << "\n"
            << 20 << "\n"
-           << "false"
+           << "false\n"
            << "\n"
            << skill << "\n"
            << 0 << "\n";
@@ -187,11 +189,11 @@ std::vector<std::string> Member::extractBlockList(std::string data)
 
   std::vector<std::string> result;
   std::istringstream stream(data);
-  std::string token;
+  std::string name;
 
-  while (std::getline(stream, token, ';'))
+  while (std::getline(stream, name, ';'))
   {
-    result.push_back(token);
+    result.push_back(name);
   }
 
   return result;
@@ -213,7 +215,6 @@ void Member::displayAllInfo()
   {
     blockedUsers += user + ';';
   }
-  blockedUsers.pop_back();
 
   std::cout << "Username: " << username << "\n"
             << "Password: " << password << "\n"
@@ -299,116 +300,78 @@ bool Member::isMemberBlocked(std::string username)
         std::cout << "Access Denied. You have been blocked by this member.\n";
     } */
 
-std::vector<std::string> Member::browseAllSupporters(std::string city)
+std::vector<std::string> Member::getAllMembers()
 {
   std::ifstream systemFile("data/system/TimeBank.dat");
 
-  std::vector<std::string> fileNames;
+  std::vector<std::string> usernames;
 
   std::string line;
   while (std::getline(systemFile, line))
   {
-    fileNames.push_back(line);
+    usernames.push_back(line);
+  }
+
+  return usernames;
+}
+
+double Member::getRequiredHostScore()
+{
+  return requiredHostScore;
+}
+
+void Member::searchSupporter(int city, std::string name)
+{ // 1 -> all
+  // 2 -> ha noi
+  // 3 -> sai gon
+  std::string keyCity = (city == 2 ? "ha noi" : "saigon");
+
+  double hostScore = std::stod(showContentAtLine("data/score/host/" + username + ".dat", 1));
+
+  bool searchKey = true;
+  std::string path = "data/account/" + name + ".dat";
+
+  if (city != 1)
+  {
+    searchKey = searchContentAtLine(path, 5, keyCity);
+  }
+
+  Member searchUser = Member::getMember(name);
+  int skillPoint = std::stoi(showContentAtLine("data/skill/" + searchUser.getUsername() + ".dat", 2));
+
+  if (hostScore < searchUser.getRequiredHostScore())
+  {
+    searchKey = false;
+    std::cerr << "You do not have high enough Host Score.\n";
+  }
+
+  if (creditPoints < skillPoint)
+  {
+    searchKey = false;
+    std::cerr << "You do not have enough credits.\n";
+  }
+
+  if (searchKey)
+  {
+    searchUser.displayInfo();
   }
 }
 
-void Member::browse(int city, int creditPoint, int hostscore, std::string name)
-{ // ho chi minh & ha noi
-  // city false = hcm, true = hn
-  // browse city base on address of each person
-  const std::string folderPath = "data/account/" + name + ".dat";
-  bool hanoi = false;
-  bool hochiminh = false;
-  string hostRateScore;   // wanted host score of each supporters
-  string hostScoreSingle; // current host score of Host
-  string supportCreditPoints;
-  string hostCreditPoints;
-  string name;
-  int hostScore;
-  int supportScore;
-  int supportCredit;
-  int hostCredit;
-  bool flag = false;
+void Member::viewAllSupporter(int city, std::string name)
+{
+  std::string keyCity = (city == 2 ? "ha noi" : "saigon");
 
-  if (city == 1) // ha noi
+  bool searchKey = true;
+  std::string path = "data/account/" + name + ".dat";
+
+  if (city != 1)
   {
-    cout << "Here's some supporter might be perfect for you: \n";
-    // file traverse
-    for (const auto &entry : std::filesystem::directory_iterator(folderPath))
-    {
-      if (entry.is_regular_file())
-      {
-        // search for ha noi city in the address
-        hanoi = searchContentAtLine(entry.path(), 5, "ha noi");
-        if (hanoi)
-        {
-          // get the host score & supporter score
-          hostRateScore = showContentAtLine(entry.path(), 11);
-          supportScore = std::stoi(hostRateScore);
-          hostScoreSingle = showContentAtLine("data/score/host/" + this->fullName + ".dat", 1);
-          hostScore = std::stoi(hostScoreSingle);
-          // get the host credit points & supporter credit points
-          name = showContentAtLine(entry.path(), 1);
-          supportCreditPoints = showContentAtLine("data/skill/" + name + ".dat", 2);
-          supportCredit = std::stoi(supportCreditPoints);
-          hostCreditPoints = showContentAtLine("data/account/" + this->fullName + ".dat", 7);
-          hostCredit = std::stoi(hostCreditPoints);
-
-          if (hostScore > supportScore && hostCredit > supportCredit)
-          {
-            flag = true;
-            showContentAtLine(entry.path(), 1);
-            showContentAtLine(entry.path(), 11);
-            cout << "\n";
-          }
-        }
-      }
-    }
-    if (!flag)
-    {
-      cout << "Currently there's maybe no one at Ha Noi is avaiable. \n";
-    }
+    searchKey = searchContentAtLine(path, 5, keyCity);
   }
-  else if (city == 2) // sai gon
+  Member searchUser = Member::getMember(name);
+  if (searchKey)
   {
-    cout << "Here's some supporter might be perfect for you: \n";
-    // file traverse
-    for (const auto &entry : std::filesystem::directory_iterator(folderPath))
-    {
-
-      if (entry.is_regular_file())
-      {
-        // search for ha noi city in the address
-        hochiminh = searchContentAtLine(entry.path(), 5, "sai gon");
-        if (hochiminh)
-        {
-          // get the host score & supporter score
-          hostRateScore = showContentAtLine(entry.path(), 11);
-          supportScore = std::stoi(hostRateScore);
-          hostScoreSingle = showContentAtLine("data/score/host/" + this->fullName + ".dat", 1);
-          hostScore = std::stoi(hostScoreSingle);
-          // get the host credit points & supporter credit points
-          name = showContentAtLine(entry.path(), 1);
-          supportCreditPoints = showContentAtLine("data/skill/" + name + ".dat", 2);
-          supportCredit = std::stoi(supportCreditPoints);
-          hostCreditPoints = showContentAtLine("data/account/" + this->fullName + ".dat", 7);
-          hostCredit = std::stoi(hostCreditPoints);
-
-          if (hostScore > supportScore && hostCredit > supportCredit)
-          {
-            // show people in hcm city
-            flag = true;
-            cout << showContentAtLine(entry.path(), 1) << "\n";
-            cout << showContentAtLine(entry.path(), 10) << "\n";
-            cout << "\n";
-          }
-        }
-      }
-    }
-    if (!flag)
-    {
-      cout << "Currently there's maybe no one at Ho Chi Minh is avaiable. \n";
-    }
+    searchUser.displayInfo();
   }
 }
 

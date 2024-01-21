@@ -2,12 +2,12 @@
 
 TimeBank::TimeBank() : session(""){};
 
-void saveAllData(){
+void TimeBank::saveAllData(){
     // Add code to save data to a file or database
     // std::cout << "Saving all data..." << std::endl;
 };
 
-void loadAllData()
+void TimeBank::loadAllData()
 {
     std::fstream dataFile("data/system/TimeBank.dat", std::ios::app);
     dataFile << "";
@@ -484,7 +484,7 @@ void TimeBank::main_menu()
                 std::cout << "Exiting...\n";
                 break;
             case 1:
-
+                TimeBank::search_supporter();
                 break;
             default:
                 std::cout << "Invalid choice.\n";
@@ -531,7 +531,7 @@ void TimeBank::main_menu()
                 std::cout << "Exiting.\n";
                 break;
             case 1:
-
+                TimeBank::search_supporter();
                 break;
             case 2:
                 TimeBank::manage_account();
@@ -592,4 +592,46 @@ void TimeBank::set_min_host_score()
 {
     Member currUser = Member::getMember(session);
     currUser.setRequiredHostScore();
+}
+
+void TimeBank::search_supporter()
+{
+    int option;
+    std::vector<std::string> userList = Member::getAllMembers();
+    Member currUser = Member::getMember(session);
+
+    while (option != 0)
+    {
+        std::cout << "\n--- View supporters ---\n"
+                  << "0. Return\n"
+                  << "1. All\n"
+                  << "2. Ha noi\n"
+                  << "3. Sai gon\n"
+                  << "Enter your choice: ";
+        std::cin >> option;
+
+        switch (option)
+        {
+        case 0:
+            break;
+        case 1:
+        case 2:
+        case 3:
+            for (std::string name : userList)
+            {
+                if (session == "guest")
+                {
+                    Member::viewAllSupporter(option, name);
+                }
+                else
+                {
+                    currUser.searchSupporter(option, name);
+                }
+            }
+            break;
+        default:
+            std::cout << "Invalid input.\n";
+            break;
+        }
+    }
 }

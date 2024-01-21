@@ -2,6 +2,9 @@
 #include <string>
 #include "Time.h"
 #include "Member.h"
+#include "Time.h"
+#include <fstream>
+#include "TimeBank.h"
 
 class Request
 {
@@ -13,17 +16,18 @@ private:
         Pending
     };
 
-    string hostName;
-    string supporterName;
-    string skill;
+    std::string hostName;
+    std::string supporterName;
+    std::string skill;
     Time timeObject;
     State state;
+
 public:
-    Request(string hostName,string supporterName, Time &time_Object, string skill);
+    Request(std::string hostName, std::string supporterName, Time &time_Object, std::string skill);
 
-    void curReq(string hostName, string supporterName);
+    void curReq(std::string hostName, std::string supporterName);
 
-    void pendingReq(string supporterName, string hostName);
+    void pendingReq(std::string supporterName, std::string hostName);
 
     void setAccepted();
 

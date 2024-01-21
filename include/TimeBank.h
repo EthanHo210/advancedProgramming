@@ -48,6 +48,9 @@ public:
     // Set required host score interface
     void set_min_host_score();
 
+    // SEARCH FOR SUPPORTERS
+    void search_supporter();
+
     friend class Member;
 };
 
@@ -79,7 +82,7 @@ bool appendContentByLine(std::string filename, int lineNumber, std::string newCo
 bool changeFileContent(std::string name, std::string search, std::string input, char ch);
 
 // SEARCH FILE CONTENT AT CERTAIN POSITION BY LINE
-bool searchContentAtLine(string filename, int lineNumber, string targetContent);
+bool searchContentAtLine(std::string filename, int lineNumber, std::string targetContent);
 
 // SHOW FILE CONTENT BY LINE
-string showContentAtLine(string filename, int lineNumber);
+std::string showContentAtLine(std::string filename, int lineNumber);
