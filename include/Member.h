@@ -76,4 +76,6 @@ public:
     static std::vector<std::string> extractBlockList(std::string data);
 
     void setRequiredHostScore();
+
+    void book(string skill, string start_Time, string end_Time, string bookedPerson);
 };
