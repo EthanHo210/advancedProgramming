@@ -2,12 +2,12 @@
 
 TimeBank::TimeBank() : session(""){};
 
-void TimeBank::saveAllData(){
+void saveAllData(){
     // Add code to save data to a file or database
     // std::cout << "Saving all data..." << std::endl;
 };
 
-void TimeBank::loadAllData()
+void loadAllData()
 {
     std::fstream dataFile("data/system/TimeBank.dat", std::ios::app);
     dataFile << "";
@@ -24,7 +24,7 @@ void TimeBank::loadAllData()
 }
 
 // SHOW THE ENTIRE FILE
-void TimeBank::logFile(std::string path)
+void logFile(std::string path)
 {
     std::string temp;
     std::ifstream dataFile;
@@ -42,7 +42,7 @@ void TimeBank::logFile(std::string path)
 }
 
 // RETURN THE ENTIRE FILE
-std::vector<std::string> TimeBank::readFile(std::string path)
+std::vector<std::string> readFile(std::string path)
 {
     std::vector<std::string> file;
     std::string temp;
@@ -64,7 +64,7 @@ std::vector<std::string> TimeBank::readFile(std::string path)
 }
 
 // CLEAR ALL THE FILE CONTENT
-void TimeBank::clearFile(std::string path)
+void clearFile(std::string path)
 {
     std::ofstream dataFile;
     dataFile.open(path, std::ios::out);
@@ -73,7 +73,7 @@ void TimeBank::clearFile(std::string path)
 }
 
 // WRITE TO FILE
-bool TimeBank::saveFile(std::string path)
+bool saveFile(std::string path)
 {
     std::ofstream dataFile;
     dataFile.open(path, std::ios::in | std::ios::app);
@@ -88,8 +88,29 @@ bool TimeBank::saveFile(std::string path)
     return true;
 }
 
+// APPEND LINES TO FILE
+void appendFile(std::string path, std::stringstream &data)
+{
+    std::ofstream dataFile;
+    dataFile.open(path, std::ios::app);
+    if (!dataFile.is_open())
+    {
+        std::cerr << "Fail to create/open file \n";
+    }
+    else
+    {
+        std::string line;
+        while (std::getline(data, line))
+        {
+            dataFile << line << '\n';
+        }
+    }
+
+    dataFile.close();
+}
+
 // CHANGE FILE CONTENT BY LINE
-bool TimeBank::changeContentByLine(std::string path, int lineNumber, std::string newContent)
+bool changeContentByLine(std::string path, int lineNumber, std::string newContent)
 {
     std::ifstream inputFile(path);
     if (!inputFile.is_open())
@@ -128,7 +149,7 @@ bool TimeBank::changeContentByLine(std::string path, int lineNumber, std::string
 }
 
 // APPEND FILE CONTENT TO LINE
-bool TimeBank::appendContentByLine(std::string path, int lineNumber, std::string newContent)
+bool appendContentByLine(std::string path, int lineNumber, std::string newContent)
 {
     std::ifstream inputFile(path);
     if (!inputFile.is_open())
@@ -167,7 +188,7 @@ bool TimeBank::appendContentByLine(std::string path, int lineNumber, std::string
 }
 
 // CHANGE THE FILE CONTENT IN DESIRE POSITION (MATCHED SEARCH STRING)
-bool TimeBank::changeFileContent(std::string path, std::string search, std::string input, char ch) // string to search and newcontent as input
+bool changeFileContent(std::string path, std::string search, std::string input, char ch) // string to search and newcontent as input
 {
     std::vector<std::string> vec_Content;
     std::string temp;
@@ -222,6 +243,65 @@ bool TimeBank::changeFileContent(std::string path, std::string search, std::stri
     out_dataFile.close();
 
     return true;
+}
+
+// SEARCH FILE CONTENT AT CERTAIN POSITION BY LINE
+bool searchContentAtLine(string filename, int lineNumber, string targetContent)
+{
+    bool status = false;
+    std::ifstream inputFile(filename);
+    if (!inputFile.is_open())
+    {
+        std::cerr << "Failed to open the file." << std::endl;
+        return status;
+    }
+    string line;
+    int currentLine = 0;
+    // Read the file until reaching the target line
+    while (currentLine < lineNumber && std::getline(inputFile, line))
+    {
+        currentLine++;
+    }
+    // Check if the target line was found
+    if (currentLine == lineNumber)
+    {
+        std::transform(line.begin(), line.end(), line.begin(), ::tolower);
+
+        // Search for the target content in the line
+        if (line.find(targetContent) != std::string::npos)
+        {
+            inputFile.close();
+            status = true;
+        }
+    }
+
+    inputFile.close();
+    return status;
+}
+
+// SHOW FILE CONTENT BY LINE
+string showContentAtLine(string filename, int lineNumber)
+{
+    std::ifstream inputFile(filename);
+    if (!inputFile.is_open())
+    {
+        std::cerr << "Failed to open the file." << std::endl;
+    }
+    string line;
+    int currentLine = 0;
+    // Read the file until reaching the target line
+    while (currentLine < lineNumber && std::getline(inputFile, line))
+    {
+        currentLine++;
+    }
+    if (currentLine == lineNumber)
+    {
+        // Search for the target content in the line
+        // cout << line << "\n";
+        return line;
+    }
+    inputFile.close();
+    return line;
 }
 
 void TimeBank::login()
@@ -360,7 +440,7 @@ void TimeBank::login()
 }
 
 // Check if username exist for login function
-bool TimeBank::isUsernameExist(std::string username)
+bool isUsernameExist(std::string username)
 {
     std::ifstream file("data/system/TimeBank.dat");
 

@@ -1,4 +1,6 @@
 #pragma once
+#include "Time.h"
+#include "Request.h"
 #include "Request.h"
 #include "User.h"
 #include "TimeBank.h"
@@ -55,9 +57,13 @@ public:
     void setAddress(const std::string &newAddress) { address = newAddress; }
     void setCreditPoints(int newCreditPoints) { creditPoints = newCreditPoints; }
 
-    void browse(const std::string &searchString);
+    void browse(int city, int creditPoint, int hostscore, std::string name);
+
     void book(Member &supporter);
+
     void enableSupport();
+    void disableSupport();
+
     void endSession();
     void rate(const Member &ratedMember);
 
@@ -71,7 +77,7 @@ public:
     void blockMember(std::string username);
     bool isMemberBlocked(std::string username);
 
-    static void browseAllSupporters(std::string city);
+    static std::vector<std::string> browseAllSupporters(std::string city);
     static Member getMember(std::string username);
     static std::vector<std::string> extractBlockList(std::string data);
 

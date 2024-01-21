@@ -6,6 +6,7 @@
 #include <vector>
 #include <fstream>
 #include <limits>
+#include <sstream>
 
 class TimeBank
 {
@@ -32,32 +33,8 @@ public:
     // Member function to load all data
     void loadAllData();
 
-    // SHOW THE ENTIRE FILE
-    static void logFile(std::string name);
-
-    // RETURN THE ENTIRE FILE
-    static std::vector<std::string> readFile(std::string name);
-
-    // CLEAR ALL THE FILE CONTENT
-    static void clearFile(std::string name);
-
-    // WRITE TO FILE
-    static bool saveFile(std::string name);
-
-    // CHANGE FILE CONTENT BY LINE
-    static bool changeContentByLine(std::string filename, int lineNumber, std::string newContent);
-
-    // APPEND FILE CONTENT BY LINE
-    static bool appendContentByLine(std::string filename, int lineNumber, std::string newContent);
-
-    // CHANGE THE FILE CONTENT IN DESIRE POSITION (MATCHED SEARCH STRING)
-    static bool changeFileContent(std::string name, std::string search, std::string input, char ch);
-
     // Log in interface
     void login();
-
-    // Check if username exist for login function
-    static bool isUsernameExist(std::string username);
 
     // Main menu interface
     void main_menu();
@@ -73,3 +50,36 @@ public:
 
     friend class Member;
 };
+
+// Check if username exist for login function
+bool isUsernameExist(std::string username);
+
+// SHOW THE ENTIRE FILE
+void logFile(std::string name);
+
+// RETURN THE ENTIRE FILE
+std::vector<std::string> readFile(std::string name);
+
+// CLEAR ALL THE FILE CONTENT
+void clearFile(std::string name);
+
+// WRITE TO FILE
+bool saveFile(std::string name);
+
+// APPEND TO FILE
+void appendFile(std::string path, std::stringstream &data);
+
+// CHANGE FILE CONTENT BY LINE
+bool changeContentByLine(std::string filename, int lineNumber, std::string newContent);
+
+// APPEND FILE CONTENT BY LINE
+bool appendContentByLine(std::string filename, int lineNumber, std::string newContent);
+
+// CHANGE THE FILE CONTENT IN DESIRE POSITION (MATCHED SEARCH STRING)
+bool changeFileContent(std::string name, std::string search, std::string input, char ch);
+
+// SEARCH FILE CONTENT AT CERTAIN POSITION BY LINE
+bool searchContentAtLine(string filename, int lineNumber, string targetContent);
+
+// SHOW FILE CONTENT BY LINE
+string showContentAtLine(string filename, int lineNumber);
