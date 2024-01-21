@@ -207,7 +207,7 @@ bool Member::verifyLogin(std::string username, std::string password)
     return false;
 }
 
-/*void Member::processRequest(Request& request, bool accept) {
+void Member::processRequest(Request& request, bool accept) {
     if (accept) {
         request.setAccepted();
         rejectOtherRequests(request.getHost().getUsername());
@@ -217,12 +217,12 @@ bool Member::verifyLogin(std::string username, std::string password)
 }
 
 void Member::rejectOtherRequests(const std::string& username) {
-    // for (Request& otherRequest : requestsList) {
-    //     if (otherRequest.getHost().getUsername() == username) {
-    //         otherRequest.setRejected();
-    //     }
-    // }
-}*/
+    for (Request& otherRequest : requestsList) {
+         if (otherRequest.getHost().getUsername() == username) {
+            otherRequest.setRejected();
+        }
+    }
+}
 
 void Member::blockMember(std::string username)
 {
