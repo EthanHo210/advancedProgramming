@@ -13,6 +13,7 @@ class TimeBank
 {
 private:
     std::string session;
+    Member sessionUser;
 
 public:
     TimeBank();
@@ -68,7 +69,7 @@ std::vector<std::string> readFile(std::string name);
 void clearFile(std::string name);
 
 // WRITE TO FILE
-bool saveFile(std::string name);
+bool saveFile(std::string name, std::stringstream &data);
 
 // APPEND TO FILE
 void appendFile(std::string path, std::stringstream &data);

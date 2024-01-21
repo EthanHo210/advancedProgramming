@@ -64,8 +64,8 @@ public:
     void setAddress(const std::string &newAddress) { address = newAddress; }
     void setCreditPoints(int newCreditPoints) { creditPoints = newCreditPoints; }
 
-    void searchSupporter(int city, std::string name);
-    void static viewAllSupporter(int city, std::string name);
+    bool searchSupporter(int city, std::string name);
+    bool static viewSupporter(int city, std::string name);
 
     void book(Member &supporter);
 

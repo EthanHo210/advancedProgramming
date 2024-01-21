@@ -45,7 +45,7 @@ void Member::enableSupport()
   std::stringstream newData;
   newData << skill << pointsConsume;
 
-  appendFile(filename, newData);
+  saveFile(filename, newData);
 
   // input min rating score
   setRequiredHostScore();
@@ -345,13 +345,14 @@ bool Member::supporting()
   return isSupporting;
 }
 
-void Member::searchSupporter(int city, std::string name)
+bool Member::searchSupporter(int city, std::string name)
 { // 1 -> all
   // 2 -> ha noi
   // 3 -> sai gon
   std::string keyCity = (city == 2 ? "ha noi" : "sai gon");
 
-  double hostScore = std::stod(showContentAtLine("data/score/host/" + username + ".dat", 1));
+  std::string hostInfo = showContentAtLine("data/score/host/" + username + ".dat", 1);
+  double hostScore = !hostInfo.empty() ? std::stod(hostInfo) : 0;
 
   bool searchKey = true;
   std::string path = "data/account/" + name + ".dat";
@@ -362,20 +363,24 @@ void Member::searchSupporter(int city, std::string name)
   }
 
   Member searchUser = Member::getMember(name);
-  // int skillPoint = std::stoi(showContentAtLine("data/skill/" + searchUser.getUsername() + ".dat", 2));
+  std::string skillInfo = showContentAtLine("data/skill/" + searchUser.getUsername() + ".dat", 2);
+  int skillPoint = !skillInfo.empty() ? std::stoi(skillInfo) : 0;
 
-  // if (hostScore < searchUser.getRequiredHostScore() || creditPoints < skillPoint || !searchUser.supporting())
-  // {
-  //   searchKey = false;
-  // }
+  if (hostScore < searchUser.getRequiredHostScore() || creditPoints < skillPoint || !searchUser.supporting())
+  {
+    searchKey = false;
+  }
 
   if (searchKey)
   {
     searchUser.displayInfo();
+    return true;
   }
+
+  return false;
 }
 
-void Member::viewAllSupporter(int city, std::string name)
+bool Member::viewSupporter(int city, std::string name)
 {
   std::string keyCity = (city == 2 ? "ha noi" : "sai gon");
 
@@ -397,7 +402,10 @@ void Member::viewAllSupporter(int city, std::string name)
   if (searchKey)
   {
     searchUser.displayInfo();
+    return true;
   }
+
+  return false;
 }
 
 void Member::setRequiredHostScore()

@@ -1,6 +1,6 @@
 #include "include/TimeBank.h"
 
-TimeBank::TimeBank() : session(""){};
+TimeBank::TimeBank() : session(""), sessionUser(){};
 
 void TimeBank::saveAllData(){
     // Add code to save data to a file or database
@@ -73,17 +73,24 @@ void clearFile(std::string path)
 }
 
 // WRITE TO FILE
-bool saveFile(std::string path)
+bool saveFile(std::string path, std::stringstream &data)
 {
     std::ofstream dataFile;
-    dataFile.open(path, std::ios::in | std::ios::app);
+    dataFile.open(path, std::ios::in);
     if (!dataFile.is_open())
     {
         std::cerr << "Fail to create/open file \n";
         return false;
     }
-    // Store in the file
-    dataFile.seekp(0, std::ios::end); // set the pointer back to end of file
+    else
+    {
+        std::string line;
+        while (std::getline(data, line))
+        {
+            dataFile << line << '\n';
+        }
+    }
+
     dataFile.close();
     return true;
 }
@@ -255,7 +262,7 @@ bool searchContentAtLine(string filename, int lineNumber, string targetContent)
         std::cerr << "Failed to open the file." << std::endl;
         return status;
     }
-    string line;
+    string line = "";
     int currentLine = 0;
     // Read the file until reaching the target line
     while (currentLine < lineNumber && std::getline(inputFile, line))
@@ -280,14 +287,14 @@ bool searchContentAtLine(string filename, int lineNumber, string targetContent)
 }
 
 // SHOW FILE CONTENT BY LINE
-string showContentAtLine(string filename, int lineNumber)
+std::string showContentAtLine(std::string filename, int lineNumber)
 {
     std::ifstream inputFile(filename);
     if (!inputFile.is_open())
     {
         std::cerr << "Failed to open the file." << std::endl;
     }
-    string line;
+    std::string line = "";
     int currentLine = 0;
     // Read the file until reaching the target line
     while (currentLine < lineNumber && std::getline(inputFile, line))
@@ -396,6 +403,7 @@ void TimeBank::login()
             {
                 std::cout << "Logged in successfully.\n";
                 session = username;
+                sessionUser = Member::getMember(session);
                 userType = 0;
             }
             else
@@ -578,6 +586,11 @@ void TimeBank::manage_account()
         case 1:
             TimeBank::view_account();
             break;
+        case 2:
+        {
+            Member currUser = Member::getMember(session);
+        }
+        break;
         case 5:
             TimeBank::set_min_host_score();
             break;
@@ -605,6 +618,7 @@ void TimeBank::set_min_host_score()
 void TimeBank::search_supporter()
 {
     int option;
+    bool result;
     std::vector<std::string> userList = Member::getAllMembers();
 
     Member currUser;
@@ -616,6 +630,7 @@ void TimeBank::search_supporter()
 
     while (option != 0)
     {
+        result = false;
         std::cout << "\n--- View supporters ---\n"
                   << "0. Return\n"
                   << "1. All\n"
@@ -635,13 +650,18 @@ void TimeBank::search_supporter()
             {
                 if (session == "guest")
                 {
-                    Member::viewAllSupporter(option, name);
+                    result = result || Member::viewSupporter(option, name);
                 }
                 else
                 {
-                    currUser.searchSupporter(option, name);
+                    result = result || currUser.searchSupporter(option, name);
                 }
             }
+            if (!result)
+            {
+                std::cout << "There is no matched supporters.\n";
+            }
+
             break;
         default:
             std::cout << "Invalid input.\n";
