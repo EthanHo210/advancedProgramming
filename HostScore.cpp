@@ -5,29 +5,6 @@
 
 HostScore::HostScore(std::vector<std::string> ratings) : Score(ratings) {}
 
-double HostScore::getAvgScore() {
-    if (ratingList.empty()) {
-        return 0.0;
-    }
-
-    double sum = 0.0;
-    for (const std::string &rating : ratingList) {
-        std::istringstream ss(rating);
-        std::string ratingLine;
-        if (std::getline(ss, ratingLine, ':')) {
-            try {
-                double ratingValue = std::stod(ratingLine);
-                sum += ratingValue;
-            } catch (const std::invalid_argument &e) {
-                std::cerr << "Error: Invalid rating found: " << rating << std::endl;
-            }
-        }
-    }
-    for (const std::string rating : ratingList) {
-        std::cout << rating << "\n";
-    }
-    return sum / ratingList.size();
-
 HostScore HostScore::getScores(const std::string path) {
     std::ifstream file(path);
     if (!file.is_open()) {
@@ -45,5 +22,10 @@ HostScore HostScore::getScores(const std::string path) {
     file.close();
 
     return HostScore(ratings);
-    }
+}
+
+static HostScore::giveRating(std::string user) {
+    std::string path = "/data/score/host" + user + ".dat";
+    std::cout << "Rating your Host.\n";
+    Score::giveRating(path); 
 }

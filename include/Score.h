@@ -12,4 +12,6 @@ public:
     double getAvgScore();
 
     static Score getScores(const std::string path);
+
+    static giveRating(const std::string path);
 };

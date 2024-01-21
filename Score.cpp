@@ -61,3 +61,26 @@ Score Score::getScores(const std::string path)
 
     return Score(ratings);
 }
+
+static Score::giveRating(const std::string path) {
+    int rating;
+    std::string comment;
+
+    std::cout << "Rating: ";
+    std::cin >> rating;
+
+    std::cin.ignore();  
+    std::cout << "Comment: ";
+    std::getline(std::cin, comment);
+    std::ofstream file(path, std::ios_base::app);  
+    if (!file.is_open()) {
+        std::cerr << "Error: Unable to open file " << path << " for writing" << std::endl;
+        return;
+    }
+
+    file << rating << ":" << comment << "\n";  // dat format
+
+    file.close();
+}
+
+

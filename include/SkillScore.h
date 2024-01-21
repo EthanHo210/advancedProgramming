@@ -8,9 +8,9 @@ class SkillScore : public Score
 public:
     SkillScore(std::vector<std::string> ratings);
 
-    double getAvgScore() override;
-
     static SkillScore getScores(const std::string path);
+
+    static giveRating() override;
 };
 
 #endif // SKILL_SCORE_H

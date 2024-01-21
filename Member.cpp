@@ -1,4 +1,5 @@
 #include "include/Member.h"
+#include "include/SupporterScore.h"
 
 Member::Member(std::string username, std::string password,
                std::string fullName = "", std::string phoneNumber = "", std::string email = "",
@@ -273,4 +274,16 @@ void Member::setRequiredHostScore()
     TimeBank::changeContentByLine(path, 11, newScore);
 
     std::cout << "Upated successfully.\n";
+}
+
+void Member::rateSupporter(std::string user) {
+    SupporterScore::giveRating(user);
+}
+
+void Member::rateHost(std::string user) {
+    HostScore::giveRating(user);
+}
+
+void Member::rateSkill(std::string user) {
+    SkillScore::giveRating(user);
 }

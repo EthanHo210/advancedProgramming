@@ -8,9 +8,9 @@ class SupporterScore : public Score
 public:
     SupporterScore(std::vector<std::string> ratings);
 
-    double getAvgScore() override;
-
     static SupporterScore getScores(const std::string path);
+
+    static giveRating() override;
 };
 
 #endif // SUPPORTER_SCORE_H

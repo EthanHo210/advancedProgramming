@@ -8,9 +8,9 @@ class HostScore : public Score
 public:
     HostScore(std::vector<std::string> ratings);
 
-    double getAvgScore() override;
-
     static HostScore getScores(const std::string path);
+
+    static giveRating() override;
 };
 
 #endif // HOST_SCORE_H

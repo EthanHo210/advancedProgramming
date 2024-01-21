@@ -2,6 +2,7 @@
 #include "Request.h"
 #include "User.h"
 #include "TimeBank.h"
+#include "SupporterScore.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -76,4 +77,8 @@ public:
     static std::vector<std::string> extractBlockList(std::string data);
 
     void setRequiredHostScore();
+
+    void rateSupporter(std::string user);
+    void rateHost(std::string user);
+    void rateSkill(std::string user);
 };
