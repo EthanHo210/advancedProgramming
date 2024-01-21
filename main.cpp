@@ -1,6 +1,5 @@
 #include <iostream>
 #include "include/Admin.h"
-#include "include/Guest.h"
 #include "include/Member.h"
 #include "include/Request.h"
 #include "include/TimeBank.h"
@@ -10,8 +9,8 @@
 
 int main(int argc, char const *argv[])
 {
-    Score score = Score::getScores("data/system/Score.dat");
-    std::cout << score.getAvgScore();
+    // Score score = Score::getScores("data/system/Score.dat");
+    // std::cout << score.getAvgScore();
     TimeBank system;
 
     system.loadAllData();
@@ -27,10 +26,8 @@ int main(int argc, char const *argv[])
               << "Welcome to Time Bank:\n";
 
     system.login();
-    if ((system.getSession()).empty())
-    {
-        return 0;
-    }
+
+    std::string sessionUser = system.getSession();
 
     // Main menu
     system.main_menu();

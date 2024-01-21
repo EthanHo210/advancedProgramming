@@ -1,7 +1,5 @@
 #pragma once
 
-#ifndef SCORE_H
-#define SCORE_H
 #include <vector>
 #include <string>
 
@@ -15,5 +13,3 @@ public:
 
     static Score getScores(const std::string path);
 };
-
-#endif // SCORE_H

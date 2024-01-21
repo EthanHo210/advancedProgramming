@@ -1,7 +1,12 @@
+#include <iostream>
 #include "include/Admin.h"
 
-Admin::Admin(std::string username, std::string password): User(username, password){}
+Admin::Admin(std::string username, std::string password) : User(username, password) {}
 
-void changeInfo(Member member){};
+void Admin::changeInfo(Member member)
+{
+}
 
-void resetPassword(Member member){};
+void Admin::resetPassword(Member member)
+{
+}

@@ -1,17 +1,18 @@
 #pragma once
-
+#include "Member.h"
+#include "User.h"
+#include "Member.h"
 #include <iostream>
 #include <vector>
 #include <fstream>
+#include <limits>
 
 class TimeBank
 {
 private:
-    std::vector<std::string> allUser;
     std::string session;
 
 public:
-    // Constructor
     TimeBank();
 
     // Session
@@ -32,7 +33,10 @@ public:
     void loadAllData();
 
     // SHOW THE ENTIRE FILE
-    static void readFile(std::string name);
+    static void logFile(std::string name);
+
+    // RETURN THE ENTIRE FILE
+    static std::vector<std::string> readFile(std::string name);
 
     // CLEAR ALL THE FILE CONTENT
     static void clearFile(std::string name);
@@ -49,9 +53,23 @@ public:
     // CHANGE THE FILE CONTENT IN DESIRE POSITION (MATCHED SEARCH STRING)
     static bool changeFileContent(std::string name, std::string search, std::string input, char ch);
 
+    // Log in interface
     void login();
+
+    // Check if username exist for login function
+    static bool isUsernameExist(std::string username);
+
+    // Main menu interface
     void main_menu();
+
+    // Account managing interface
+    void manage_account();
+
+    // View account information interface
     void view_account();
+
+    // Set required host score interface
+    void set_min_host_score();
 
     friend class Member;
 };

@@ -1,22 +1,14 @@
 #pragma once
-
-#include "Member.h"
+#include <string>
 
 class Request
 {
 private:
-    enum State
-    {
-        Accepted,
-        Rejected,
-        Pending
-    };
-   
-    Member host;
-    Member supporter;
-    State state;
+    std::string host;
+    std::string supporter;
+
 public:
-    Request(Member host, Member supporter);
+    Request(std::string host, std::string supporter);
 
     void setAccepted();
 
