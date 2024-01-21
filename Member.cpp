@@ -23,12 +23,12 @@ void Member::book(string skill, string start_Time, string end_Time, string booke
 void Member::enableSupport()
 {
   // Implement enableSupport functionality
-  string filename;
-  string mainFile;
+  std::string filename;
+  std::string mainFile;
   filename = "data/skill/" + this->username + ".dat";
   mainFile = "data/account/" + this->username + ".dat";
-  string pointsConsume;
-  string minHost;
+  std::string pointsConsume;
+  std::string minHost;
   int minHostscore;
 
   // set status = true
@@ -49,11 +49,15 @@ void Member::enableSupport()
 
   // input min rating score
   setRequiredHostScore();
+
+  changeContentByLine(mainFile, 8, "true");
 }
 
 void Member::disableSupport()
 {
   isSupporting = false;
+  std::string path = "data/account/" + username + ".dat";
+  changeContentByLine(path, 8, "false");
 }
 
 void Member::registerMember(std::string username, std::string password)

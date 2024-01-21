@@ -570,7 +570,7 @@ void TimeBank::manage_account()
         std::cout << "\nMANAGE ACCOUNT\n";
         std::cout << "0. Return\n"
                   << "1. View your information\n"
-                  << "2. Change account to supporter\n"
+                  << "2. Manage supporting status\n"
                   << "3. Check your on-going requests\n"
                   << "4. Check pending requests from other users\n"
                   << "5. Set minimum host score\n"
@@ -589,6 +589,25 @@ void TimeBank::manage_account()
         case 2:
         {
             Member currUser = Member::getMember(session);
+            if (currUser.supporting())
+            {
+                int option;
+
+                std::cout << "You are supporting. Do you want to stop?\n0. Stop supporting\n1. Continue supporting and return to main menu.";
+                std::cin >> option;
+                switch (option)
+                {
+                case 0:
+                    currUser.disableSupport();
+                    break;
+                case 1:
+                    break;
+
+                default:
+                    break;
+                }
+            }
+
             currUser.enableSupport();
         }
         break;
