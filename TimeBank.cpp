@@ -1,6 +1,6 @@
 #include "include/TimeBank.h"
 
-TimeBank::TimeBank() : session(""), sessionUser(){};
+TimeBank::TimeBank() : session(""){};
 
 void TimeBank::saveAllData(){
     // Add code to save data to a file or database
@@ -403,7 +403,6 @@ void TimeBank::login()
             {
                 std::cout << "Logged in successfully.\n";
                 session = username;
-                sessionUser = Member::getMember(session);
                 userType = 0;
             }
             else

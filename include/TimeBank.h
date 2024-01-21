@@ -13,7 +13,6 @@ class TimeBank
 {
 private:
     std::string session;
-    Member sessionUser;
 
 public:
     TimeBank();
