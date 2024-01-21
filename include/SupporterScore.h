@@ -10,7 +10,7 @@ public:
 
     static SupporterScore getScores(const std::string path);
 
-    static giveRating() override;
+    static void giveRating(std::string user);
 };
 
 #endif // SUPPORTER_SCORE_H

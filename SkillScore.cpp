@@ -5,18 +5,20 @@
 
 SkillScore::SkillScore(std::vector<std::string> ratings) : Score(ratings) {}
 
-SkillScore SkillScore::getScores(const std::string path) {
+SkillScore SkillScore::getScores(const std::string path)
+{
     std::ifstream file(path);
-    if (!file.is_open()) {
+    if (!file.is_open())
+    {
         std::cerr << "Error: Unable to open file " << path << std::endl;
-        return HostScore(std::vector<std::string>{});
+        return SkillScore(std::vector<std::string>{});
     }
 
     std::vector<std::string> ratings;
     std::string line;
 
-
-    while (std::getline(file, line)) {
+    while (std::getline(file, line))
+    {
         ratings.push_back(line);
     }
 
@@ -25,9 +27,9 @@ SkillScore SkillScore::getScores(const std::string path) {
     return SkillScore(ratings);
 }
 
-static SkillScore::giveRating(std::string user) {
+void SkillScore::giveRating(std::string user)
+{
     std::string path = "/data/score/skill" + user + ".dat";
     std::cout << "Rating your Skill.\n";
-    Score::giveRating(path); 
+    Score::giveRating(path);
 }
-

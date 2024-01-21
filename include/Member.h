@@ -12,6 +12,8 @@
 #include <string>
 #include <algorithm>
 #include <limits>
+#include "HostScore.h"
+#include "SkillScore.h"
 
 using std::string;
 using std::vector;

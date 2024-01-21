@@ -10,7 +10,7 @@ public:
 
     static HostScore getScores(const std::string path);
 
-    static giveRating() override;
+    static void giveRating(std::string user);
 };
 
 #endif // HOST_SCORE_H

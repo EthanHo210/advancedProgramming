@@ -10,7 +10,7 @@ public:
 
     static SkillScore getScores(const std::string path);
 
-    static giveRating() override;
+    static void giveRating(std::string user);
 };
 
 #endif // SKILL_SCORE_H

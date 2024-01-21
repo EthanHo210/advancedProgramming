@@ -5,17 +5,20 @@
 
 SupporterScore::SupporterScore(std::vector<std::string> ratings) : Score(ratings) {}
 
-SupporterScore SupporterScore::getScores(const std::string path) {
+SupporterScore SupporterScore::getScores(const std::string path)
+{
     std::ifstream file(path);
-    if (!file.is_open()) {
+    if (!file.is_open())
+    {
         std::cerr << "Error: Unable to open file " << path << std::endl;
-        return HostScore(std::vector<std::string>{});
+        return SupporterScore(std::vector<std::string>{});
     }
 
     std::vector<std::string> ratings;
     std::string line;
 
-    while (std::getline(file, line)) {
+    while (std::getline(file, line))
+    {
         ratings.push_back(line);
     }
 
@@ -24,9 +27,9 @@ SupporterScore SupporterScore::getScores(const std::string path) {
     return SupporterScore(ratings);
 }
 
-static SupporterScore::giveRating(std::string user) {
+void SupporterScore::giveRating(std::string user)
+{
     std::string path = "/data/score/supporter" + user + ".dat";
     std::cout << "Rating your Supporter.\n";
-    Score::giveRating(path); 
+    Score::giveRating(path);
 }
-
